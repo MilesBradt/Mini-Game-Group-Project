@@ -1,3 +1,5 @@
+// https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+
 var canvas = document.querySelector('canvas');
 
 var ctx = canvas.getContext('2d');
@@ -25,9 +27,9 @@ function Ball(x, y, velX, velY, color, size) {
 // Look into replacing this with other shapes
 Ball.prototype.draw = function() {
   ctx.beginPath();
-    ctx.fillStyle = this.color;
-    ctx.arc(this.x, this.y, this.size, 0, 2);
-    ctx.fill();
+  ctx.fillStyle = this.color;
+  ctx.arc(this.x, this.y, this.size, 0, 2);
+  ctx.fill();
 }
 
 Ball.prototype.update = function() {
@@ -41,7 +43,6 @@ Ball.prototype.update = function() {
 
 
 // Hit detection, needs to be looked at more
-
 // Ball.prototype.collisionDetect = function() {
 //   for (var j = 0; j < balls.length; j++) {
 //     if (!(this === balls[j])) {
@@ -65,7 +66,7 @@ testBall.color
 testBall.draw()
 
 function loop() {
-  ctx.fillStyle = 'rgba(10, 10, 10, 0.25)';
+  ctx.fillStyle = 'rgba(10, 10, 10, 0.7)';
   ctx.fillRect(0, 0, width, height);
 
   // Determines the amount of objects spawned on screen
