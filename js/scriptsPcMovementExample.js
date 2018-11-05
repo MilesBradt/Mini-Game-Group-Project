@@ -16,21 +16,21 @@ function component(width, height, color, x, y) {  // object with
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
   this.newPos = function() {
-    this.x += this.speedX;
-    this.y += this.speedY;
+      this.x += this.speedX;
+    // this.y += this.speedY;
   }
 }
 
 function startGame() {  // makes pc as a component piece
     myGameArea.start();
-    myGamePiece = new component(30, 30, "red", 10, 120);
+    myGamePiece = new component(30, 50, "red", 510, 650);
 }
 
 var myGameArea = { // makes canvas parameters. canvas is an html element that only takes images, and graphic from JavaScript.
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
+        this.canvas.width = 1080;
+        this.canvas.height = 720;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
@@ -49,19 +49,19 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
 function updateGameArea() { // draws the new position of the pc after removing ALL objects in canvas.
     myGameArea.clear();
     myGamePiece.speedX = 0;
-    myGamePiece.speedY = 0;
-    if (myGameArea.key && myGameArea.key == 37) {
-      myGamePiece.speedX = -1;
+    // myGamePiece.speedY = 0;
+    if (myGameArea.key && myGameArea.key == 37 && myGamePiece.x>8) {
+      myGamePiece.speedX = -8;
      }
-    if (myGameArea.key && myGameArea.key == 39) {
-      myGamePiece.speedX = 1;
+    if (myGameArea.key && myGameArea.key == 39 && myGamePiece.x<1042) {
+      myGamePiece.speedX = 8;
      }
-    if (myGameArea.key && myGameArea.key == 38) {
-      myGamePiece.speedY = -1;
-     }
-    if (myGameArea.key && myGameArea.key == 40) {
-      myGamePiece.speedY = 1;
-     }
+    // if (myGameArea.key && myGameArea.key == 38) {
+    //   myGamePiece.speedY = -8;
+    //  }
+    // if (myGameArea.key && myGameArea.key == 40) {
+    //   myGamePiece.speedY = 8;
+    //  }
     myGamePiece.newPos();
     myGamePiece.update();
 }
