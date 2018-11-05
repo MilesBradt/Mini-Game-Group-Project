@@ -1,5 +1,3 @@
-// https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-
 var canvas = document.querySelector('canvas');
 
 var ctx = canvas.getContext('2d');
