@@ -115,17 +115,34 @@
 //     }
 // });
 
+function random(min, max) {
+  var num = Math.floor(Math.random() * (max - min + 1)) + min;
+  return num;
+}
+
 function myMove() {
+  var qt = 5;
+
+  for (var i = 0; i < qt; ++i) {
+    var animation = $('<div id="animate"></div>');
+    $('#container').prepend(animation);
+  };
+
   var elem = document.getElementById("animate");
   var pos = 0;
-  var id = setInterval(frame, 5);
+  var randomXPos = (random(0, 670));
+  elem.style.left = randomXPos + 'px';
+
+  var id = setInterval(frame, 16.67);
   function frame() {
     if (pos >= 670) {
-      clearInterval(id);
-    } else {
-      pos += 2;
+      randomXPos = (random(0, 670))
+      pos = 0;
       elem.style.top = pos + 'px';
-      // elem.style.left = pos + 'px';
+      elem.style.left = randomXPos + 'px';
+    } else {
+      pos += 1;
+      elem.style.top = pos + 'px';
     }
   }
 }
