@@ -35,11 +35,12 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', function (e) {
-            myGameArea.key = e.keyCode;
-        });
+            myGameArea.keys = (myGameArea.keys || []);
+            myGameArea.keys[e.keyCode] = true;
+        })
         window.addEventListener('keyup', function (e) {
-            myGameArea.key = false;
-        });
+            myGameArea.keys[e.keyCode] = false;
+        })
     },
     clear : function(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -51,24 +52,18 @@ function updateGameArea() { // draws the new position of the pc after removing A
     myGamePiece.speedX = 0;
     // myGamePiece.speedY = 0;
 
-    //ensures the game piece is within the limitations of the canvas border
-    if (myGameArea.key && myGameArea.key == 37 && myGamePiece.x>8) {
-      myGamePiece.speedX = -8;
+
+    if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
+      myGamePiece.speedX += -8;
      }
 
-    if (myGameArea.key && myGameArea.key == 39 && myGamePiece.x<1042) {
-      myGamePiece.speedX = 8;
+    if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1042) {
+      myGamePiece.speedX += 8;
      }
-    // if (myGameArea.key && myGameArea.key == 38) {
-    //   myGamePiece.speedY = -8;
-    //  }
-    // if (myGameArea.key && myGameArea.key == 40) {
-    //   myGamePiece.speedY = 8;
-    //  }
+
     myGamePiece.newPos();
     myGamePiece.update();
 }
-//somthing small
 
 $(document).ready(function() {
 
