@@ -23,8 +23,3 @@ Team work (starting out):
 
     Blake/Michael:
     Controllable objects (PC)
-
-
-testing git pull origin master
-
-Miles waz here
