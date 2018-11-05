@@ -50,9 +50,12 @@ function updateGameArea() { // draws the new position of the pc after removing A
     myGameArea.clear();
     myGamePiece.speedX = 0;
     // myGamePiece.speedY = 0;
+
+    //ensures the game piece is within the limitations of the canvas border
     if (myGameArea.key && myGameArea.key == 37 && myGamePiece.x>8) {
       myGamePiece.speedX = -8;
      }
+
     if (myGameArea.key && myGameArea.key == 39 && myGamePiece.x<1042) {
       myGamePiece.speedX = 8;
      }
