@@ -120,10 +120,10 @@ function myMove() {
   var pos = 0;
   var id = setInterval(frame, 5);
   function frame() {
-    if (pos >= 345) {
+    if (pos >= 670) {
       clearInterval(id);
     } else {
-      pos += 6;
+      pos += 2;
       elem.style.top = pos + 'px';
       // elem.style.left = pos + 'px';
     }

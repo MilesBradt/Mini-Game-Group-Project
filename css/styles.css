@@ -43,14 +43,14 @@ body {background-color:grey;}
 } */
 
 #container {
-  width: 400px;
-  height: 400px;
+  width: 720px;
+  height: 720px;
   position: relative;
-  background: yellow;
+  background: #11698C;
 }
 #animate {
   width: 50px;
   height: 50px;
   position: absolute;
-  background-color: red;
+  background-color: #B0C6D9;
 }
