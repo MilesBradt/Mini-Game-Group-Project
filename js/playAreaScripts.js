@@ -40,14 +40,12 @@ function MultipleFallingObjects() {
 
 
 MultipleFallingObjects.prototype.CreateFallingObjects = function() {
-  for (var i=0; i < 15; i++ ){
+  for (var i=0; i < 50; i++ ){
 
     //Can change the range of initial spawn here. First random represents x-axis, second, the y-axis.
     this.addFallingObject(new FallingObject(randInt(1030, 0), randInt(0, -1200)));
-    console.log("Falling object number: " + i);
   }
 }
-
 
 
 function randInt(max, min) {
@@ -60,8 +58,7 @@ var myGamePiece;
 var animate;
 
 
-
-function PlayerCharacter(width, height, color, x, y, score = 0) {  // object with
+function PlayerCharacter(width, height, color, x, y, score = 0, highScore = 0) {  // object with
   this.gamearea = myGameArea;
   this.width = width;
   this.height = height;
@@ -70,15 +67,54 @@ function PlayerCharacter(width, height, color, x, y, score = 0) {  // object wit
   this.x = x;
   this.y = y;
   this.score = score;
+  this.highScore = highScore;
   this.update = function() {
     ctx = myGameArea.context;
     ctx.fillStyle = color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
+    // character = new Image();
+    // character.src = "img/wariosheet.png"
+    // var srcX;
+    // var srcY;
+    // var x = 0;
+    // var y = 0;
+    // var sheetWidth = 394;
+    // var sheetHeight = 37
+    //
+    // var cols = 10;
+    // var rows = 1;
+    //
+    // var width = sheetWidth / cols;
+    // var height = sheetHeight / rows;
+    //
+    // var currentFrame = 0;
+    //
+    // character.addEventListener('load', function() {
+    //   function updateFrame() {
+    //     currentFrame = ++currentFrame % cols;
+    //     srcX = currentFrame * width;
+    //     srcY = 0;
+    //     ctx.clearRect(x, y, width, height);
+    //   }
+    //
+    //   function drawImageWario() {
+    //     updateFrame();
+    //     ctx.drawImage(character, srcX, srcY, width, height, x = 1041, y = 680, width, height);
+    //   }
+    //
+    //   warioRunning = setInterval(function(){
+    //     drawImageWario();
+    //   }, 100)
+
+      // execute drawImage statements here
+    // });
+
     ctx.font = "30px Courier New";
     var scoreColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
     scoreColor.addColorStop("0","#050400");
     ctx.fillStyle = scoreColor;
     ctx.fillText("Score: " + this.score, 10, 30);
+    ctx.fillText("High Score: " + this.highScore, 10, 60);
   }
   this.newPos = function() {
       this.x += this.speedX;
@@ -94,25 +130,25 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
   this.x = x;
   this.y = y;
   this.width = 5;
-  this.height = 70;
+  this.height = 15;
   this.speedX = 0;
-  this.speedY = 4.75;
+  this.speedY = 6;
 
   this.updateFall = function() {  // info for recreating object after screen clear (uses object's updated positions)
     var ice = new Image();
     ice.addEventListener('load', function() {
       // execute drawImage statements here
     }, false);
-    ice.src = "img/ice.png";
+    ice.src = "img/ice-test.png";
     ctx = myGameArea.context;
-    ctx.drawImage(ice, this.x, this.y)
-    ctx.fillStyle = "red";
+    ctx.drawImage(ice, this.x - 4, this.y - 68)
+    ctx.fillStyle = "rgba(255,0,0,0)";
     ctx.fillRect(this.x, this.y, this.width, this.height);
 }
 
   this.myMove = function() {
   var yAxis = this.y
-    if (yAxis <= 750) {
+    if (yAxis <= 800) {
       yAxis += this.speedY;
     } else {
       //Can change range of respawn coordinates here.
@@ -126,7 +162,7 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
     this.speedY = 0;
   }
   this.playFall = function() {
-    this.speedY = 4.75;
+    this.speedY = 6;
   }
 }
 
@@ -134,9 +170,6 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
 var rain;
 var myGamePiece;
 var paused;
-
-
-// var animate;
 
 function startGame() {  // makes pc as a PlayerCharacter piece
     myGameArea.start();
@@ -151,7 +184,6 @@ function pauseGame(pc, objectsArray) {
   objectsArray.pauseAll();
 }
 
-
 var myGameArea = { // makes canvas parameters. canvas is an html element that only takes images, and graphic from JavaScript.
     canvas : document.getElementById("canvas"),
 
@@ -159,9 +191,10 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
     start : function() {
 
         this.context = canvas.getContext("2d");
+        ctx = this.context
 
         // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 8.3);
+        this.interval = setInterval(updateGameArea, 8.34);
         if (paused) {
           window.addEventListener('keydown', function (e) {
               myGameArea.keys = (myGameArea.keys || []);
@@ -213,31 +246,32 @@ function updateGameArea() { // draws the new position of the pc after removing A
     myGameArea.clear();
     myGamePiece.speedX = 0;
     // myGamePiece.speedY = 0;
-
     for (var i=0; i < rain.fallingObjects.length; i++ ){
       var rainDrop = rain.fallingObjects[i];
       if (rainDrop.x < myGamePiece.x + myGamePiece.width &&
         rainDrop.x + rainDrop.width > myGamePiece.x &&
         rainDrop.y < myGamePiece.y + myGamePiece.height &&
         rainDrop.y + rainDrop.height > myGamePiece.y) {
-          console.log("hit");
           $("#score").text(myGamePiece.score);
           continueAnimating = false;
         } else {
-          $("#score").text(myGamePiece.score += 3);
+          $("#score").text(myGamePiece.score += 1);
           rainDrop.myMove();
           rainDrop.updateFall();
+          if (myGamePiece.score >= myGamePiece.highScore) {
+          myGamePiece.highScore = myGamePiece.score;
+          }
         }
     }
 
 
     if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
-      myGamePiece.speedX += -10;
-    }
+      myGamePiece.speedX += -3.5;
+     }
 
     if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1042) {
-      myGamePiece.speedX += 10;
-    }
+      myGamePiece.speedX += 3.5;
+     }
 
     if (myGameArea.keys && myGameArea.keys[80]) {
       setTimeout(function(){
