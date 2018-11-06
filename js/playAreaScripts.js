@@ -25,9 +25,6 @@ function MultipleFallingObjects() {
 }
 
 
-
-
-
 MultipleFallingObjects.prototype.CreateFallingObjects = function() {
   for (var i=0; i < 15; i++ ){
 
@@ -45,8 +42,12 @@ function randInt(max, min) {
 }
 
 
+var myGamePiece;
+var animate;
 
-function PlayerCharacter(width, height, color, x, y) {  // object 
+
+
+function Component(width, height, color, x, y, score = 0) {  // object with
   this.gamearea = myGameArea;
   this.width = width;
   this.height = height;
@@ -54,10 +55,16 @@ function PlayerCharacter(width, height, color, x, y) {  // object
   this.speedY = 0;
   this.x = x;
   this.y = y;
+  this.score = score;
   this.update = function() {
     ctx = myGameArea.context;
     ctx.fillStyle = color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.font = "30px Courier New";
+    var scoreColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    scoreColor.addColorStop("0","#050400");
+    ctx.fillStyle = scoreColor;
+    ctx.fillText("Score: " + this.score, 10, 30);
   }
   this.newPos = function() {
       this.x += this.speedX;
@@ -68,11 +75,17 @@ function PlayerCharacter(width, height, color, x, y) {  // object
 function FallingObject(x = 0, y = 0) { // Construct for creating falling object. positions variable
   this.x = x;
   this.y = y;
-  this.width = 30;
-  this.height = 30;
+  this.width = 5;
+  this.height = 70;
 
   this.updateFall = function() {  // info for recreating object after screen clear (uses object's updated positions)
+    var ice = new Image();
+    ice.addEventListener('load', function() {
+      // execute drawImage statements here
+    }, false);
+    ice.src = "img/ice.png";
     ctx = myGameArea.context;
+    ctx.drawImage(ice, this.x, this.y)
     ctx.fillStyle = "red";
     ctx.fillRect(this.x, this.y, this.width, this.height);
 }
@@ -90,6 +103,7 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
   }
 }
 
+
 var rain;
 var myGamePiece;
 
@@ -104,13 +118,16 @@ function startGame() {  // makes pc as a PlayerCharacter piece
 }
 
 
+
 var myGameArea = { // makes canvas parameters. canvas is an html element that only takes images, and graphic from JavaScript.
-    canvas : document.createElement("canvas"),
+    canvas : document.getElementById("canvas"),
+
+    // scoreSpan.setAttribute("id", "score"),
     start : function() {
-        this.canvas.width = 1080;
-        this.canvas.height = 720;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+
+        this.context = canvas.getContext("2d");
+
+        // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 16.67);
         window.addEventListener('keydown', function (e) {
             myGameArea.keys = (myGameArea.keys || []);
@@ -121,13 +138,16 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
         })
     },
     clear : function(){
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.clearRect(0, 0, canvas.width, canvas.height);
     } // clears the canvas of old versions of objects (like where the pc was one key press ago)
 }
 
-
+var continueAnimating = true;
 
 function updateGameArea() { // draws the new position of the pc after removing ALL objects in canvas.
+  if(!continueAnimating) {
+    return;
+  }
     myGameArea.clear();
     myGamePiece.speedX = 0;
     // myGamePiece.speedY = 0;
@@ -139,11 +159,14 @@ function updateGameArea() { // draws the new position of the pc after removing A
         rainDrop.y < myGamePiece.y + myGamePiece.height &&
         rainDrop.y + rainDrop.height > myGamePiece.y) {
           console.log("hit");
+          $("#score").text(myGamePiece.score);
+          continueAnimating = false;
+        } else {
+          $("#score").text(myGamePiece.score += 3);
         }
       rainDrop.myMove();
       rainDrop.updateFall();
     }
-
 
 
     if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
@@ -154,12 +177,11 @@ function updateGameArea() { // draws the new position of the pc after removing A
       myGamePiece.speedX += 10;
      }
 
-
-
     myGamePiece.newPos();
     myGamePiece.update();
 }
 
 $(document).ready(function() {
+
 
 });
