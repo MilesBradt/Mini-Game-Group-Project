@@ -92,6 +92,10 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
 
 var rain;
 var myGamePiece;
+
+
+// var animate;
+
 function startGame() {  // makes pc as a Component piece
     myGameArea.start();
     myGamePiece = new Component(30, 50, "#0E6B28", 600, 670);
@@ -135,6 +139,7 @@ function updateGameArea() { // draws the new position of the pc after removing A
     }
 
 
+
     if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
       myGamePiece.speedX += -10;
      }
@@ -142,6 +147,13 @@ function updateGameArea() { // draws the new position of the pc after removing A
     if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1042) {
       myGamePiece.speedX += 10;
      }
+
+    if (animate.x < myGamePiece.x + myGamePiece.width &&
+        animate.x + animate.width > myGamePiece.x &&
+        animate.y < myGamePiece.y + myGamePiece.height &&
+        animate.y + animate.height > myGamePiece.y) {
+          console.log("hit");
+        }
 
     myGamePiece.newPos();
     myGamePiece.update();
