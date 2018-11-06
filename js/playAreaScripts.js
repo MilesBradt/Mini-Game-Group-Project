@@ -48,7 +48,7 @@ var animate;
 
 
 
-function Component(width, height, color, x, y, score = 0) {  // object with
+function Component(width, height, color, x, y, score = 0, highScore = 0) {  // object with
   this.gamearea = myGameArea;
   this.width = width;
   this.height = height;
@@ -57,15 +57,54 @@ function Component(width, height, color, x, y, score = 0) {  // object with
   this.x = x;
   this.y = y;
   this.score = score;
+  this.highScore = highScore;
   this.update = function() {
     ctx = myGameArea.context;
     ctx.fillStyle = color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
+    // character = new Image();
+    // character.src = "img/wariosheet.png"
+    // var srcX;
+    // var srcY;
+    // var x = 0;
+    // var y = 0;
+    // var sheetWidth = 394;
+    // var sheetHeight = 37
+    //
+    // var cols = 10;
+    // var rows = 1;
+    //
+    // var width = sheetWidth / cols;
+    // var height = sheetHeight / rows;
+    //
+    // var currentFrame = 0;
+    //
+    // character.addEventListener('load', function() {
+    //   function updateFrame() {
+    //     currentFrame = ++currentFrame % cols;
+    //     srcX = currentFrame * width;
+    //     srcY = 0;
+    //     ctx.clearRect(x, y, width, height);
+    //   }
+    //
+    //   function drawImageWario() {
+    //     updateFrame();
+    //     ctx.drawImage(character, srcX, srcY, width, height, x = 1041, y = 680, width, height);
+    //   }
+    //
+    //   warioRunning = setInterval(function(){
+    //     drawImageWario();
+    //   }, 100)
+
+      // execute drawImage statements here
+    // });
+
     ctx.font = "30px Courier New";
     var scoreColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
     scoreColor.addColorStop("0","#050400");
     ctx.fillStyle = scoreColor;
     ctx.fillText("Score: " + this.score, 10, 30);
+    ctx.fillText("High Score: " + this.highScore, 10, 60);
   }
   this.newPos = function() {
       this.x += this.speedX;
@@ -109,54 +148,13 @@ var rain;
 var myGamePiece;
 
 
-// var animate;
-
-// var srcX;
-// var srcY;
-// var sheetWidth = 394;
-// var sheetHeight = 37
-//
-// var cols = 10;
-// var rows = 1;
-//
-// var width = sheetWidth / cols;
-// var height = sheetHeight / rows;
-//
-// var currentFrame = 0;
-//
-// var character = new Image();
-// character.src = "img/wariosheet.png"
-//
-// function updateFrame() {
-//   currentFrame = ++currentFrame % cols;
-//   srcX = currentFrame * width;
-//   srcY = 0;
-// }
-//
-// function drawImage() {
-//   updateFrame();
-//   ctx.drawImage(character, srcX, srcY, width, height, x, y, width, height);
-// }
-
 function startGame() {  // makes pc as a Component piece
     myGameArea.start();
     myGamePiece = new Component(20, 40, "#0E6B28", 1041, 680);
 
-
-    character = new Image();
-    character.src = "img/wariosheet.png"
-
     rain = new MultipleFallingObjects();
     rain.CreateFallingObjects();
 }
-
-
-
-
-
-
-
-
 
 
 var myGameArea = { // makes canvas parameters. canvas is an html element that only takes images, and graphic from JavaScript.
@@ -166,44 +164,10 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
     start : function() {
 
         this.context = canvas.getContext("2d");
-        var ctx = this.context
-        var srcX;
-        var srcY;
-        var x = 0;
-        var y = 0;
-        var sheetWidth = 394;
-        var sheetHeight = 37
-
-        var cols = 10;
-        var rows = 1;
-
-        var width = sheetWidth / cols;
-        var height = sheetHeight / rows;
-
-        var currentFrame = 0;
-
-
-        function updateFrame() {
-          currentFrame = ++currentFrame % cols;
-          srcX = currentFrame * width;
-          srcY = 0;
-          ctx.clearRect(x, y, width, height);
-        }
-
-        function drawImageWario() {
-          updateFrame();
-          ctx.drawImage(character, srcX, srcY, width, height, x = 1041, y = 680, width, height);
-        }
-
-        warioSprite = setInterval(function(){
-          drawImageWario();
-        }, 100)
-
-
+        ctx = this.context
 
         // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 8.34);
-
 
         window.addEventListener('keydown', function (e) {
             myGameArea.keys = (myGameArea.keys || []);
@@ -224,10 +188,10 @@ function updateGameArea() { // draws the new position of the pc after removing A
   if(!continueAnimating) {
     return;
   }
+
     myGameArea.clear();
     myGamePiece.speedX = 0;
     // myGamePiece.speedY = 0;
-
     for (var i=0; i < rain.fallingObjects.length; i++ ){
       var rainDrop = rain.fallingObjects[i];
       if (rainDrop.x < myGamePiece.x + myGamePiece.width &&
@@ -238,7 +202,10 @@ function updateGameArea() { // draws the new position of the pc after removing A
           $("#score").text(myGamePiece.score);
           continueAnimating = false;
         } else {
-          $("#score").text(myGamePiece.score += 2);
+          $("#score").text(myGamePiece.score += 1);
+          if (myGamePiece.score >= myGamePiece.highScore) {
+          myGamePiece.highScore = myGamePiece.score;
+          }
         }
       rainDrop.myMove();
       rainDrop.updateFall();
