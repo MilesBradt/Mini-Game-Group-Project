@@ -9,6 +9,7 @@ Extra things we want:
   - Options (different theme colors/colorblind mode)
   - Difficulty levels
   - CSS animations
+  - Multiple Game Screen Sizes
 
 Wishlist:
   - Sound effects/music
@@ -23,8 +24,3 @@ Team work (starting out):
 
     Blake/Michael:
     Controllable objects (PC)
-
-
-testing git pull origin master
-
-Miles waz here
