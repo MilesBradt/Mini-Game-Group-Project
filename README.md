@@ -9,6 +9,7 @@ Extra things we want:
   - Options (different theme colors/colorblind mode)
   - Difficulty levels
   - CSS animations
+  - Multiple Game Screen Sizes
 
 Wishlist:
   - Sound effects/music
