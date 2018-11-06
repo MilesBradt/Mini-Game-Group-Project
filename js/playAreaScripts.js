@@ -22,6 +22,20 @@ function MultipleFallingObjects() {
     };
     return false;
   }
+
+  this.pauseAll = function() {
+    for (var i=0; i < this.fallingObjects.length; i++ ){
+      var object = this.fallingObjects[i];
+      object.pauseFall();
+    }
+  }
+
+  this.playAll = function() {
+    for (var i=0; i < this.fallingObjects.length; i++ ){
+      var object = this.fallingObjects[i];
+      object.playFall();
+    }
+  }
 }
 
 var iceCount = 15;
@@ -47,7 +61,7 @@ var myGamePiece;
 var animate;
 
 
-function Component(width, height, color, x, y, score = 0, highScore = 0) {  // object with
+function PlayerCharacter(width, height, color, x, y, score = 0, highScore = 0) {  // object with
   this.gamearea = myGameArea;
   this.width = width;
   this.height = height;
@@ -109,6 +123,10 @@ function Component(width, height, color, x, y, score = 0, highScore = 0) {  // o
       this.x += this.speedX;
     // this.y += this.speedY;
   }
+  this.pausePlayer = function() {
+    this.speedX = 0;
+    this.speedY = 0;
+  }
 }
 
 function FallingObject(x = 0, y = 0) { // Construct for creating falling object. positions variable
@@ -116,6 +134,8 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
   this.y = y;
   this.width = 5;
   this.height = 15;
+  this.speedX = 0;
+  this.speedY = 6;
 
   this.updateFall = function() {  // info for recreating object after screen clear (uses object's updated positions)
     var ice = new Image();
@@ -140,21 +160,34 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
     }
     this.y = yAxis;
   }
+
+  this.pauseFall = function() {
+    this.speedY = 0;
+  }
+  this.playFall = function() {
+    this.speedY = 6;
+  }
 }
 
 
 var rain;
 var myGamePiece;
+var paused;
 
-
-function startGame() {  // makes pc as a Component piece
+function startGame() {  // makes pc as a PlayerCharacter piece
     myGameArea.start();
-    myGamePiece = new Component(10, 25, "white", 1041, 700);
-
+    myGamePiece = new PlayerCharacter(15, 20, "#FFF", 600, 700);
     rain = new MultipleFallingObjects();
+
     rain.CreateFallingObjects(15);
+    paused = false;
+
 }
 
+function pauseGame(pc, objectsArray) {
+  pc.pausePlayer();
+  objectsArray.pauseAll();
+}
 
 var myGameArea = { // makes canvas parameters. canvas is an html element that only takes images, and graphic from JavaScript.
     canvas : document.getElementById("canvas"),
@@ -167,14 +200,30 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
 
         // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 8.34);
+        if (paused) {
+          window.addEventListener('keydown', function (e) {
+              myGameArea.keys = (myGameArea.keys || []);
+              myGameArea.keys[e.keyCode] = false;
+              myGameArea.keys[80] = true;
+          })
+          window.addEventListener('keyup', function (e) {
+              myGameArea.keys[e.keyCode] = true;
+              myGameArea.keys[80] = false;
+          })
+        } else {
 
-        window.addEventListener('keydown', function (e) {
-            myGameArea.keys = (myGameArea.keys || []);
-            myGameArea.keys[e.keyCode] = true;
-        })
-        window.addEventListener('keyup', function (e) {
-            myGameArea.keys[e.keyCode] = false;
-        })
+          window.addEventListener('keydown', function (e) {
+              myGameArea.keys = (myGameArea.keys || []);
+              myGameArea.keys[e.keyCode] = true;
+              // myGameArea.keys[39] = true;
+              // myGameArea.keys[80] = true;
+          })
+          window.addEventListener('keyup', function (e) {
+              myGameArea.keys[e.keyCode] = false;
+              // myGameArea.keys[39] = false;
+              // myGameArea.keys[80] = false;
+          })
+        }
     },
     clear : function(){
         this.context.clearRect(0, 0, canvas.width, canvas.height);
@@ -184,9 +233,20 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
 var continueAnimating = true;
 
 function updateGameArea() { // draws the new position of the pc after removing ALL objects in canvas.
-  if(!continueAnimating) {
-    return;
-  }
+
+
+  if (paused) {
+    if (myGameArea.keys && myGameArea.keys[80]) {
+      setTimeout(function(){
+      paused = false;
+      rain.playAll();
+    }, 150);
+    }
+  } else {
+
+    if(!continueAnimating) {
+      return;
+    }
 
     myGameArea.clear();
     myGamePiece.speedX = 0;
@@ -197,11 +257,13 @@ function updateGameArea() { // draws the new position of the pc after removing A
         rainDrop.x + rainDrop.width > myGamePiece.x &&
         rainDrop.y < myGamePiece.y + myGamePiece.height &&
         rainDrop.y + rainDrop.height > myGamePiece.y) {
-          console.log("hit");
           $("#score").text(myGamePiece.score);
           continueAnimating = false;
         } else {
           $("#score").text(myGamePiece.score += 1);
+
+          rainDrop.myMove();
+          rainDrop.updateFall();
 
           if (myGamePiece.score >= myGamePiece.highScore) {
           myGamePiece.highScore = myGamePiece.score;
@@ -226,8 +288,6 @@ function updateGameArea() { // draws the new position of the pc after removing A
             $("canvas").addClass("ultra");
           }
         }
-      rainDrop.myMove();
-      rainDrop.updateFall();
     }
 
 
@@ -239,8 +299,16 @@ function updateGameArea() { // draws the new position of the pc after removing A
       myGamePiece.speedX += 3.5;
      }
 
+    if (myGameArea.keys && myGameArea.keys[80]) {
+      setTimeout(function(){
+      pauseGame(myGamePiece, rain);
+      paused = true;
+    }, 150);
+    }
     myGamePiece.newPos();
     myGamePiece.update();
+
+  }
 }
 
 $(document).ready(function() {
