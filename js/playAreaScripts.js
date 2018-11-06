@@ -1,6 +1,50 @@
 // Business logic for PC movement\ Example
+function MultipleFallingObjects() {
+  this.fallingObjects = [],
+  this.currentId = 0,
+  this.addFallingObject = function(fallingObject) {
+    fallingObject.id = this.assignId();
+    this.fallingObjects.push(fallingObject);
+  },
 
-var myGamePiece;
+  this.assignId = function() {
+    this.currentId += 1;
+    return this.currentId;
+  },
+
+  this.findFallingObject = function(id) {
+    for (var i=0; i< this.fallingObjects.length; i++) {
+      if (this.fallingObjects[i]) {
+        if (this.fallingObjects[i].id == id) {
+          return this.fallingObjects[i];
+        }
+      }
+    };
+    return false;
+  }
+}
+
+
+
+
+
+MultipleFallingObjects.prototype.CreateFallingObjects = function() {
+  for (var i=0; i < 15; i++ ){
+
+    //Can change the range of initial spawn here. First random represents x-axis, second, the y-axis.
+    this.addFallingObject(new FallingObject(randInt(1030, 0), randInt(0, -1200)));
+    console.log("Falling object number: " + i);
+  }
+}
+
+
+
+function randInt(max, min) {
+   var number = Math.floor(Math.random()*(max - min + 1)) + min;
+   return number;
+}
+
+
 
 function Component(width, height, color, x, y) {  // object with
   this.gamearea = myGameArea;
@@ -31,28 +75,31 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
     ctx = myGameArea.context;
     ctx.fillStyle = "red";
     ctx.fillRect(this.x, this.y, this.width, this.height);
-  }
+}
 
   this.myMove = function() {
   var yAxis = this.y
     if (yAxis <= 750) {
       yAxis += 4.75;
     } else {
-      yAxis = 0;
-      this.x = Math.floor(Math.random()*(1030 - 0 + 1)) + 0;
+      //Can change range of respawn coordinates here.
+      yAxis = randInt(0, -200);
+      this.x = randInt(1030, 0);
     }
     this.y = yAxis;
   }
 }
 
-
+var rain;
+var myGamePiece;
 function startGame() {  // makes pc as a Component piece
     myGameArea.start();
     myGamePiece = new Component(30, 50, "#0E6B28", 600, 670);
-    animate = new FallingObject();
+    rain = new MultipleFallingObjects();
+    rain.CreateFallingObjects();
 }
 
-var animate;
+
 var myGameArea = { // makes canvas parameters. canvas is an html element that only takes images, and graphic from JavaScript.
     canvas : document.createElement("canvas"),
     start : function() {
@@ -81,8 +128,11 @@ function updateGameArea() { // draws the new position of the pc after removing A
     myGamePiece.speedX = 0;
     // myGamePiece.speedY = 0;
 
-    animate.myMove();
-    animate.updateFall();
+    for (var i=0; i < rain.fallingObjects.length; i++ ){
+      var rainDrop = rain.fallingObjects[i];
+      rainDrop.myMove();
+      rainDrop.updateFall();
+    }
 
 
     if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
