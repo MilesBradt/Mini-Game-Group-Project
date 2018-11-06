@@ -105,6 +105,8 @@ function updateGameArea() { // draws the new position of the pc after removing A
         animate.y < myGamePiece.y + myGamePiece.height &&
         animate.y + animate.height > myGamePiece.y) {
           console.log("hit");
+          animate.y = 0;
+          animate.x = Math.floor(Math.random()*(1030 - 0 + 1)) + 0;
         }
 
     myGamePiece.newPos();
