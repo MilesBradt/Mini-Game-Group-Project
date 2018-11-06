@@ -46,7 +46,7 @@ function randInt(max, min) {
 
 
 
-function Component(width, height, color, x, y) {  // object with
+function PlayerCharacter(width, height, color, x, y) {  // object 
   this.gamearea = myGameArea;
   this.width = width;
   this.height = height;
@@ -96,9 +96,9 @@ var myGamePiece;
 
 // var animate;
 
-function startGame() {  // makes pc as a Component piece
+function startGame() {  // makes pc as a PlayerCharacter piece
     myGameArea.start();
-    myGamePiece = new Component(30, 50, "#0E6B28", 600, 670);
+    myGamePiece = new PlayerCharacter(30, 50, "#0E6B28", 600, 670);
     rain = new MultipleFallingObjects();
     rain.CreateFallingObjects();
 }
