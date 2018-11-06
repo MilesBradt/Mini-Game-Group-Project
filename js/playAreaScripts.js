@@ -26,7 +26,7 @@ function MultipleFallingObjects() {
 
 
 MultipleFallingObjects.prototype.CreateFallingObjects = function() {
-  for (var i=0; i < 35; i++ ){
+  for (var i=0; i < 50; i++ ){
 
     //Can change the range of initial spawn here. First random represents x-axis, second, the y-axis.
     this.addFallingObject(new FallingObject(randInt(1030, 0), randInt(0, -1200)));
@@ -35,17 +35,14 @@ MultipleFallingObjects.prototype.CreateFallingObjects = function() {
 }
 
 
-
 function randInt(max, min) {
    var number = Math.floor(Math.random()*(max - min + 1)) + min;
    return number;
 }
 
 
-
 var myGamePiece;
 var animate;
-
 
 
 function Component(width, height, color, x, y, score = 0, highScore = 0) {  // object with
@@ -116,7 +113,7 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
   this.x = x;
   this.y = y;
   this.width = 5;
-  this.height = 70;
+  this.height = 15;
 
   this.updateFall = function() {  // info for recreating object after screen clear (uses object's updated positions)
     var ice = new Image();
@@ -125,14 +122,14 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
     }, false);
     ice.src = "img/ice-test.png";
     ctx = myGameArea.context;
-    ctx.drawImage(ice, this.x - 3.5, this.y)
+    ctx.drawImage(ice, this.x - 4, this.y - 68)
     ctx.fillStyle = "rgba(255,0,0,0)";
     ctx.fillRect(this.x, this.y, this.width, this.height);
 }
 
   this.myMove = function() {
   var yAxis = this.y
-    if (yAxis <= 690) {
+    if (yAxis <= 800) {
       yAxis += 6;
     } else {
       //Can change range of respawn coordinates here.
@@ -150,7 +147,7 @@ var myGamePiece;
 
 function startGame() {  // makes pc as a Component piece
     myGameArea.start();
-    myGamePiece = new Component(20, 40, "#0E6B28", 1041, 680);
+    myGamePiece = new Component(10, 25, "white", 1041, 700);
 
     rain = new MultipleFallingObjects();
     rain.CreateFallingObjects();
@@ -213,12 +210,11 @@ function updateGameArea() { // draws the new position of the pc after removing A
 
 
     if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
-      myGamePiece.speedX += -5;
-
+      myGamePiece.speedX += -3.5;
      }
 
     if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1042) {
-      myGamePiece.speedX += 5;
+      myGamePiece.speedX += 3.5;
      }
 
     myGamePiece.newPos();
