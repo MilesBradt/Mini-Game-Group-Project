@@ -161,7 +161,7 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
         this.context = canvas.getContext("2d");
 
         // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 8.34);
+        this.interval = setInterval(updateGameArea, 8.3);
         if (paused) {
           window.addEventListener('keydown', function (e) {
               myGameArea.keys = (myGameArea.keys || []);
