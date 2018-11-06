@@ -18,6 +18,9 @@ function Component(width, height, color, x, y, score = 0) {  // object with
     ctx.fillStyle = color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
     ctx.font = "30px Courier New";
+    var scoreColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    scoreColor.addColorStop("0","#050400");
+    ctx.fillStyle = scoreColor;
     ctx.fillText("Score: " + this.score, 10, 30);
   }
   this.newPos = function() {
@@ -80,9 +83,12 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
     } // clears the canvas of old versions of objects (like where the pc was one key press ago)
 }
 
-
+var continueAnimating = true;
 
 function updateGameArea() { // draws the new position of the pc after removing ALL objects in canvas.
+  if(!continueAnimating) {
+    return;
+  }
     myGameArea.clear();
     myGamePiece.speedX = 0;
     // myGamePiece.speedY = 0;
@@ -105,8 +111,10 @@ function updateGameArea() { // draws the new position of the pc after removing A
         animate.y < myGamePiece.y + myGamePiece.height &&
         animate.y + animate.height > myGamePiece.y) {
           console.log("hit");
-          animate.y = 0;
-          animate.x = Math.floor(Math.random()*(1030 - 0 + 1)) + 0;
+          $("#score").text(myGamePiece.score);
+          continueAnimating = false;
+          // animate.y = 0;
+          // animate.x = Math.floor(Math.random()*(1030 - 0 + 1)) + 0;
         } else {
           $("#score").text(myGamePiece.score += 3);
         }
