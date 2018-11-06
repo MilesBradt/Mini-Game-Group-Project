@@ -63,5 +63,35 @@ canvas {
     margin-left: auto;
     margin-right: auto;
     border:5px solid #000;
-    background-color: #000;
+    background-color: #506476;
+}
+
+.level-up2 {
+  display: flex;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  border:5px solid #000;
+  background-color: #48A68B;
+}
+
+.level-up3 {
+  display: flex;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  border:5px solid #000;
+  background-color: #F49E3C;
+}
+
+.ultra {
+  display: flex;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  border:5px solid #000;
+  background-color: #000;
 }

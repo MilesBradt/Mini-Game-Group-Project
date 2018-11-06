@@ -24,13 +24,15 @@ function MultipleFallingObjects() {
   }
 }
 
+var iceCount = 15;
+var iceSpeed = 4;
 
-MultipleFallingObjects.prototype.CreateFallingObjects = function() {
-  for (var i=0; i < 50; i++ ){
+MultipleFallingObjects.prototype.CreateFallingObjects = function(iceCount) {
+  for (var i=0; i < iceCount; i++ ){
 
     //Can change the range of initial spawn here. First random represents x-axis, second, the y-axis.
     this.addFallingObject(new FallingObject(randInt(1030, 0), randInt(0, -1200)));
-    console.log("Falling object number: " + i);
+    console.log("Falling object number: " + iceCount);
   }
 }
 
@@ -130,7 +132,7 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
   this.myMove = function() {
   var yAxis = this.y
     if (yAxis <= 800) {
-      yAxis += 6;
+      yAxis += iceSpeed;
     } else {
       //Can change range of respawn coordinates here.
       yAxis = randInt(0, -200);
@@ -150,7 +152,7 @@ function startGame() {  // makes pc as a Component piece
     myGamePiece = new Component(10, 25, "white", 1041, 700);
 
     rain = new MultipleFallingObjects();
-    rain.CreateFallingObjects();
+    rain.CreateFallingObjects(15);
 }
 
 
@@ -200,8 +202,28 @@ function updateGameArea() { // draws the new position of the pc after removing A
           continueAnimating = false;
         } else {
           $("#score").text(myGamePiece.score += 1);
+
           if (myGamePiece.score >= myGamePiece.highScore) {
           myGamePiece.highScore = myGamePiece.score;
+          }
+
+          if (myGamePiece.score === 35000) {
+            rain.CreateFallingObjects(10);
+            $("canvas").addClass("level-up2");
+          }
+
+          if (myGamePiece.score === 65000) {
+            rain.CreateFallingObjects(10);
+            iceSpeed = 6;
+            $("canvas").removeClass("level-up2");
+            $("canvas").addClass("level-up3");
+          }
+
+          if (myGamePiece.score === 100000) {
+            rain.CreateFallingObjects(15);
+            iceSpeed = 6;
+            $("canvas").removeClass("level-up3");
+            $("canvas").addClass("ultra");
           }
         }
       rainDrop.myMove();
