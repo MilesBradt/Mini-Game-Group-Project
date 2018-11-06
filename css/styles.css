@@ -54,8 +54,14 @@ body {background-color:grey;}
   height: 50px;
   position: absolute;
   background-color: #B0C6D9;
+}
 
 canvas {
-    border:1px solid #d3d3d3;
-    background-color: #f1f1f1;
+    display: flex;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    border:5px solid #000;
+    background-color: #B0C6D9;
 }
