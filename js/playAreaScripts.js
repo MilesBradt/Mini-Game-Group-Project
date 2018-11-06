@@ -134,6 +134,12 @@ function updateGameArea() { // draws the new position of the pc after removing A
 
     for (var i=0; i < rain.fallingObjects.length; i++ ){
       var rainDrop = rain.fallingObjects[i];
+      if (rainDrop.x < myGamePiece.x + myGamePiece.width &&
+        rainDrop.x + rainDrop.width > myGamePiece.x &&
+        rainDrop.y < myGamePiece.y + myGamePiece.height &&
+        rainDrop.y + rainDrop.height > myGamePiece.y) {
+          console.log("hit");
+        }
       rainDrop.myMove();
       rainDrop.updateFall();
     }
@@ -148,12 +154,7 @@ function updateGameArea() { // draws the new position of the pc after removing A
       myGamePiece.speedX += 10;
      }
 
-    if (animate.x < myGamePiece.x + myGamePiece.width &&
-        animate.x + animate.width > myGamePiece.x &&
-        animate.y < myGamePiece.y + myGamePiece.height &&
-        animate.y + animate.height > myGamePiece.y) {
-          console.log("hit");
-        }
+
 
     myGamePiece.newPos();
     myGamePiece.update();
