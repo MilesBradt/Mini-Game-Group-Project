@@ -78,13 +78,13 @@ function random(min, max) {
 }
 
 function myMove() {
-  var qt = 5;
+  // var qt = 5;
 
-  for (var i = 0; i < qt; ++i) {
-    var animation = $('<div id="animate"></div>');
-    $('#container').prepend(animation);
-  };
+  // for (var i = 0; i < qt; ++i) {
+  // };
 
+  var animation = $('<div id="animate"></div>');
+  $('#container').prepend(animation);
   var elem = document.getElementById("animate");
   var pos = 0;
   var randomXPos = (random(0, 670));
@@ -98,7 +98,7 @@ function myMove() {
       elem.style.top = pos + 'px';
       elem.style.left = randomXPos + 'px';
     } else {
-      pos += 1;
+      pos += 5;
       elem.style.top = pos + 'px';
     }
   }
