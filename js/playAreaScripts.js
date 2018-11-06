@@ -26,7 +26,7 @@ function MultipleFallingObjects() {
 
 
 MultipleFallingObjects.prototype.CreateFallingObjects = function() {
-  for (var i=0; i < 15; i++ ){
+  for (var i=0; i < 35; i++ ){
 
     //Can change the range of initial spawn here. First random represents x-axis, second, the y-axis.
     this.addFallingObject(new FallingObject(randInt(1030, 0), randInt(0, -1200)));
@@ -84,17 +84,17 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
     ice.addEventListener('load', function() {
       // execute drawImage statements here
     }, false);
-    ice.src = "img/ice.png";
+    ice.src = "img/ice-test.png";
     ctx = myGameArea.context;
-    ctx.drawImage(ice, this.x, this.y)
-    ctx.fillStyle = "red";
+    ctx.drawImage(ice, this.x - 3.5, this.y)
+    ctx.fillStyle = "rgba(255,0,0,0)";
     ctx.fillRect(this.x, this.y, this.width, this.height);
 }
 
   this.myMove = function() {
   var yAxis = this.y
-    if (yAxis <= 750) {
-      yAxis += 4.75;
+    if (yAxis <= 690) {
+      yAxis += 6;
     } else {
       //Can change range of respawn coordinates here.
       yAxis = randInt(0, -200);
@@ -111,12 +111,51 @@ var myGamePiece;
 
 // var animate;
 
+// var srcX;
+// var srcY;
+// var sheetWidth = 394;
+// var sheetHeight = 37
+//
+// var cols = 10;
+// var rows = 1;
+//
+// var width = sheetWidth / cols;
+// var height = sheetHeight / rows;
+//
+// var currentFrame = 0;
+//
+// var character = new Image();
+// character.src = "img/wariosheet.png"
+//
+// function updateFrame() {
+//   currentFrame = ++currentFrame % cols;
+//   srcX = currentFrame * width;
+//   srcY = 0;
+// }
+//
+// function drawImage() {
+//   updateFrame();
+//   ctx.drawImage(character, srcX, srcY, width, height, x, y, width, height);
+// }
+
 function startGame() {  // makes pc as a Component piece
     myGameArea.start();
-    myGamePiece = new Component(30, 50, "#0E6B28", 600, 670);
+    myGamePiece = new Component(20, 40, "#0E6B28", 1041, 680);
+
+
+    character = new Image();
+    character.src = "img/wariosheet.png"
+
     rain = new MultipleFallingObjects();
     rain.CreateFallingObjects();
 }
+
+
+
+
+
+
+
 
 
 
@@ -127,9 +166,45 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
     start : function() {
 
         this.context = canvas.getContext("2d");
+        var ctx = this.context
+        var srcX;
+        var srcY;
+        var x = 0;
+        var y = 0;
+        var sheetWidth = 394;
+        var sheetHeight = 37
+
+        var cols = 10;
+        var rows = 1;
+
+        var width = sheetWidth / cols;
+        var height = sheetHeight / rows;
+
+        var currentFrame = 0;
+
+
+        function updateFrame() {
+          currentFrame = ++currentFrame % cols;
+          srcX = currentFrame * width;
+          srcY = 0;
+          ctx.clearRect(x, y, width, height);
+        }
+
+        function drawImageWario() {
+          updateFrame();
+          ctx.drawImage(character, srcX, srcY, width, height, x = 1041, y = 680, width, height);
+        }
+
+        warioSprite = setInterval(function(){
+          drawImageWario();
+        }, 100)
+
+
 
         // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 16.67);
+        this.interval = setInterval(updateGameArea, 8.34);
+
+
         window.addEventListener('keydown', function (e) {
             myGameArea.keys = (myGameArea.keys || []);
             myGameArea.keys[e.keyCode] = true;
@@ -163,7 +238,7 @@ function updateGameArea() { // draws the new position of the pc after removing A
           $("#score").text(myGamePiece.score);
           continueAnimating = false;
         } else {
-          $("#score").text(myGamePiece.score += 3);
+          $("#score").text(myGamePiece.score += 2);
         }
       rainDrop.myMove();
       rainDrop.updateFall();
@@ -171,11 +246,12 @@ function updateGameArea() { // draws the new position of the pc after removing A
 
 
     if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
-      myGamePiece.speedX += -10;
+      myGamePiece.speedX += -5;
+
      }
 
     if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1042) {
-      myGamePiece.speedX += 10;
+      myGamePiece.speedX += 5;
      }
 
     myGamePiece.newPos();
