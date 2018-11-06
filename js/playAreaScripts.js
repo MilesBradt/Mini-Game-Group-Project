@@ -1,8 +1,10 @@
 // Business logic for PC movement\ Example
 
 var myGamePiece;
+var animate;
 
-function Component(width, height, color, x, y) {  // object with
+
+function Component(width, height, color, x, y, score = 0) {  // object with
   this.gamearea = myGameArea;
   this.width = width;
   this.height = height;
@@ -10,10 +12,13 @@ function Component(width, height, color, x, y) {  // object with
   this.speedY = 0;
   this.x = x;
   this.y = y;
+  this.score = score;
   this.update = function() {
     ctx = myGameArea.context;
     ctx.fillStyle = color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.font = "30px Courier New";
+    ctx.fillText("Score: " + this.score, 10, 30);
   }
   this.newPos = function() {
       this.x += this.speedX;
@@ -45,27 +50,22 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
   }
 }
 
-function hitDetection() {
-
-}
-
-var animate;
-
 function startGame() {  // makes pc as a Component piece
     myGameArea.start();
     myGamePiece = new Component(30, 50, "#0E6B28", 600, 670);
     animate = new FallingObject();
+    animate.x = Math.floor(Math.random()*(1030 - 0 + 1)) + 0;
 }
 
-
-
 var myGameArea = { // makes canvas parameters. canvas is an html element that only takes images, and graphic from JavaScript.
-    canvas : document.createElement("canvas"),
+    canvas : document.getElementById("canvas"),
+
+    // scoreSpan.setAttribute("id", "score"),
     start : function() {
-        this.canvas.width = 1080;
-        this.canvas.height = 720;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+
+        this.context = canvas.getContext("2d");
+
+        // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 16.67);
         window.addEventListener('keydown', function (e) {
             myGameArea.keys = (myGameArea.keys || []);
@@ -76,7 +76,7 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
         })
     },
     clear : function(){
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.clearRect(0, 0, canvas.width, canvas.height);
     } // clears the canvas of old versions of objects (like where the pc was one key press ago)
 }
 
@@ -107,6 +107,8 @@ function updateGameArea() { // draws the new position of the pc after removing A
           console.log("hit");
           animate.y = 0;
           animate.x = Math.floor(Math.random()*(1030 - 0 + 1)) + 0;
+        } else {
+          $("#score").text(myGamePiece.score += 3);
         }
 
     myGamePiece.newPos();
@@ -114,5 +116,6 @@ function updateGameArea() { // draws the new position of the pc after removing A
 }
 
 $(document).ready(function() {
+
 
 });
