@@ -32,11 +32,17 @@ function Component(width, height, color, x, y, score = 0) {  // object with
 function FallingObject(x = 0, y = 0) { // Construct for creating falling object. positions variable
   this.x = x;
   this.y = y;
-  this.width = 30;
-  this.height = 30;
+  this.width = 5;
+  this.height = 70;
 
   this.updateFall = function() {  // info for recreating object after screen clear (uses object's updated positions)
+    var ice = new Image();
+    ice.addEventListener('load', function() {
+      // execute drawImage statements here
+    }, false);
+    ice.src = "img/ice.png";
     ctx = myGameArea.context;
+    ctx.drawImage(ice, this.x, this.y)
     ctx.fillStyle = "red";
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
