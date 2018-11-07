@@ -238,6 +238,9 @@ var myStartArea = {
   start : function() {
     this.context = canvas.getContext("2d");
     ctx = this.context
+    ctx.font = "30px Arial";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "teal";
     window.addEventListener('keydown', function (e) {
       myGameArea.keys = (myGameArea.keys || []);
       myGameArea.keys[e.keyCode] = true;
@@ -265,6 +268,8 @@ function updateStartArea() {
     return;
   } else { // draws the new position of the pc after removing ALL objects in canvas.
     myStartArea.clear();
+
+
     if (myGameArea.keys && myGameArea.keys[32]) {
       startGame();
       continueAnimating = true;
@@ -275,6 +280,8 @@ function updateStartArea() {
       snowFlake.gentleMove();
       snowFlake.updateSnow();
     }
+    ctx.fillText("< and > to move", canvas.width/2, canvas.height/2 - 25);
+    ctx.fillText("press space to start", canvas.width/2, canvas.height/2 + 25);
   }
 }
 
