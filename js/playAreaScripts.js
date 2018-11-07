@@ -224,6 +224,7 @@ function startGame() {  // makes pc as a PlayerCharacter piece
 
 function startScreen() {
   myStartArea.start();
+  myGamePiece;
   snowFall = new MultipleFallingObjects();
   snowFall.CreateSnowFall(20);
 }
@@ -282,7 +283,9 @@ function updateStartArea() {
       snowFlake.gentleMove();
       snowFlake.updateSnow();
     }
+    ctx.font = "48px Arial";
     ctx.fillStyle = "rgba(255,255,255,1)";
+    ctx.fillText("High Score: " + playerHighScore.score, canvas.width/2, canvas.height/2 - 300);
     ctx.fillText("< and > to move", canvas.width/2, canvas.height/2 - 25);
     ctx.fillText("press space to start", canvas.width/2, canvas.height/2 + 25);
   }
