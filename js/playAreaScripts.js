@@ -87,7 +87,7 @@ function PlayerHighScore(score) {
 
 
 function PlayerCharacter(width, height, color, x, y, score) {  // object with
-  this.gamearea = myGameArea;
+  this.gameArea = myGameArea;
   this.width = width;
   this.height = height;
   this.speedX = 0;
@@ -99,43 +99,6 @@ function PlayerCharacter(width, height, color, x, y, score) {  // object with
     ctx = myGameArea.context;
     ctx.fillStyle = color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
-    // character = new Image();
-    // character.src = "img/wariosheet.png"
-    // var srcX;
-    // var srcY;
-    // var x = 0;
-    // var y = 0;
-    // var sheetWidth = 394;
-    // var sheetHeight = 37
-    //
-    // var cols = 10;
-    // var rows = 1;
-    //
-    // var width = sheetWidth / cols;
-    // var height = sheetHeight / rows;
-    //
-    // var currentFrame = 0;
-    //
-    // character.addEventListener('load', function() {
-    //   function updateFrame() {
-    //     currentFrame = ++currentFrame % cols;
-    //     srcX = currentFrame * width;
-    //     srcY = 0;
-    //     ctx.clearRect(x, y, width, height);
-    //   }
-    //
-    //   function drawImageWario() {
-    //     updateFrame();
-    //     ctx.drawImage(character, srcX, srcY, width, height, x = 1041, y = 680, width, height);
-    //   }
-    //
-    //   warioRunning = setInterval(function(){
-    //     drawImageWario();
-    //   }, 100)
-
-    // execute drawImage statements here
-    // });
-
     ctx.font = "30px Courier New";
     var scoreColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
     scoreColor.addColorStop("0","#FFF");
