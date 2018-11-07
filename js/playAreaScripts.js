@@ -49,6 +49,13 @@ MultipleFallingObjects.prototype.CreateFallingObjects = function(iceCount) {
     console.log("Falling object number: " + iceCount);
   }
 }
+MultipleFallingObjects.prototype.CreateSnowFall = function(iceCount) {
+  for (var i=0; i < iceCount; i++ ){
+
+    //Can change the range of initial spawn here. First random represents x-axis, second, the y-axis.
+    this.addFallingObject(new FallingObject(randInt(1030, 0), randInt(0, -1200), randInt(20, 10), randInt(20,10), randInt(1, -1), randInt(3, 5)));
+  }
+}
 
 
 function randInt(max, min) {
@@ -129,13 +136,13 @@ function PlayerCharacter(width, height, color, x, y, score = 0, highScore = 0) {
   }
 }
 
-function FallingObject(x = 0, y = 0) { // Construct for creating falling object. positions variable
+function FallingObject(x = 0, y = 0, width = 5, height = 15, speedX = 0, speedY = 6) { // Construct for creating falling object. positions variable
   this.x = x;
   this.y = y;
-  this.width = 5;
-  this.height = 15;
-  this.speedX = 0;
-  this.speedY = 6;
+  this.width = width;
+  this.height = height;
+  this.speedX = speedX;
+  this.speedY = speedY;
 
   this.updateFall = function() {  // info for recreating object after screen clear (uses object's updated positions)
     var ice = new Image();
@@ -148,6 +155,23 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
     ctx.fillStyle = "rgba(255,0,0,0)";
     ctx.fillRect(this.x, this.y, this.width, this.height);
 }
+
+  this.updateSnow = function() {
+    ctx = myStartArea.context;
+    ctx.fillStyle = "white";
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+
+  this.gentleMove = function() {
+    if (this.y <= 800) {
+      this.y += this.speedY;
+    } else {
+      //Can change range of respawn coordinates here.
+      this.y = randInt(0, -200);
+      this.x = randInt(1080, 0);
+    }
+    this.x += this.speedX;
+  }
 
   this.myMove = function() {
   var yAxis = this.y
@@ -173,6 +197,7 @@ function FallingObject(x = 0, y = 0) { // Construct for creating falling object.
 var rain;
 var myGamePiece;
 var paused;
+var snowFall;
 
 function startGame() {  // makes pc as a PlayerCharacter piece
     myGameArea.start();
@@ -184,10 +209,44 @@ function startGame() {  // makes pc as a PlayerCharacter piece
 
 }
 
+function startScreen() {
+  myStartArea.start();
+  snowFall = new MultipleFallingObjects();
+  snowFall.CreateSnowFall(20);
+}
+
 function pauseGame(pc, objectsArray) {
   pc.pausePlayer();
   objectsArray.pauseAll();
 }
+
+var myStartArea = {
+  canvas : document.getElementById("canvas"),
+
+  // scoreSpan.setAttribute("id", "score"),
+  start : function() {
+      this.context = canvas.getContext("2d");
+      ctx = this.context
+
+      this.interval = setInterval(updateStartArea, 8.34);
+  },
+  clear : function(){
+      this.context.clearRect(0, 0, canvas.width, canvas.height);
+  } // clears the canvas of old versions of objects (like where the pc was one key press ago)
+}
+
+
+
+function updateStartArea() { // draws the new position of the pc after removing ALL objects in canvas.
+  myStartArea.clear();
+  for (var i=0; i < snowFall.fallingObjects.length; i++ ){
+    var snowFlake = snowFall.fallingObjects[i];
+    snowFlake.gentleMove();
+    snowFlake.updateSnow();
+  }
+}
+
+
 
 var myGameArea = { // makes canvas parameters. canvas is an html element that only takes images, and graphic from JavaScript.
     canvas : document.getElementById("canvas"),
