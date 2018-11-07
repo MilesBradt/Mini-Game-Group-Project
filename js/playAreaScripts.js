@@ -66,6 +66,7 @@ MultipleFallingObjects.prototype.CreateFallingObjects = function(iceCount) {
 
 MultipleFallingObjects.prototype.RemoveAllFallingObjects = function() {
   this.fallingObjects.splice(0, this.fallingObject.length);
+  this.currentId = 0;
 }
 
 MultipleFallingObjects.prototype.CreateSnowFall = function(iceCount) {
@@ -88,7 +89,7 @@ function PlayerHighScore(score) {
 
 
 function PlayerCharacter(width, height, color, x, y, score) {  // object with
-  this.gamearea = myGameArea;
+  this.gameArea = myGameArea;
   this.width = width;
   this.height = height;
   this.speedX = 0;
@@ -100,43 +101,6 @@ function PlayerCharacter(width, height, color, x, y, score) {  // object with
     ctx = myGameArea.context;
     ctx.fillStyle = color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
-    // character = new Image();
-    // character.src = "img/wariosheet.png"
-    // var srcX;
-    // var srcY;
-    // var x = 0;
-    // var y = 0;
-    // var sheetWidth = 394;
-    // var sheetHeight = 37
-    //
-    // var cols = 10;
-    // var rows = 1;
-    //
-    // var width = sheetWidth / cols;
-    // var height = sheetHeight / rows;
-    //
-    // var currentFrame = 0;
-    //
-    // character.addEventListener('load', function() {
-    //   function updateFrame() {
-    //     currentFrame = ++currentFrame % cols;
-    //     srcX = currentFrame * width;
-    //     srcY = 0;
-    //     ctx.clearRect(x, y, width, height);
-    //   }
-    //
-    //   function drawImageWario() {
-    //     updateFrame();
-    //     ctx.drawImage(character, srcX, srcY, width, height, x = 1041, y = 680, width, height);
-    //   }
-    //
-    //   warioRunning = setInterval(function(){
-    //     drawImageWario();
-    //   }, 100)
-
-    // execute drawImage statements here
-    // });
-
     ctx.font = "30px Courier New";
     var scoreColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
     scoreColor.addColorStop("0","#FFF");
@@ -288,12 +252,11 @@ function updateStartArea() {
     ctx.font = "48px Arial";
     ctx.fillStyle = "rgba(255,255,255,1)";
     ctx.fillText("< and > to move", canvas.width/2, canvas.height/2 - 25);
-    ctx.fillText("press space to start", canvas.width/2, canvas.height/2 + 25);      
+    ctx.fillText("press space to start", canvas.width/2, canvas.height/2 + 25);
     ctx.fillText("Score That Round: " + myGamePiece.score, canvas.width/2, canvas.height/2 - 240);
     ctx.fillText("High Score: " + playerHighScore.score, canvas.width/2, canvas.height/2 - 300);
   }
 }
-
 
 
 var myGameArea = { // makes canvas parameters. canvas is an html element that only takes images, and graphic from JavaScript.
@@ -366,12 +329,10 @@ function updateGameArea() { // draws the new position of the pc after removing A
       if (rainDrop.x < myGamePiece.x + myGamePiece.width &&
         rainDrop.x + rainDrop.width > myGamePiece.x &&
         rainDrop.y < myGamePiece.y + myGamePiece.height &&
-        rainDrop.y + rainDrop.height > myGamePiece.y) {
+        rainDrop.y + rainDrop.height > myGamePiece.y) { //hit detection
           $("#score").text(myGamePiece.score);
           continueAnimating = false;
           stopStartScreen = false;
-
-
           startScreen();
         } else {
           $("#score").text(myGamePiece.score += 1);
@@ -422,18 +383,18 @@ function updateGameArea() { // draws the new position of the pc after removing A
 
       if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
         myGamePiece.speedX += -3.5;
-      }
+      } // left arrow key
 
       if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1042) {
         myGamePiece.speedX += 3.5;
-      }
+      } // right arrow key
 
       if (myGameArea.keys && myGameArea.keys[80]) {
         setTimeout(function(){
           pauseGame(myGamePiece, rain);
           paused = true;
         }, 150);
-      }
+      } // 'P' key
       myGamePiece.newPos();
       myGamePiece.update();
 
