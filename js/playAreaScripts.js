@@ -49,6 +49,7 @@ MultipleFallingObjects.prototype.CreateFallingObjects = function(iceCount) {
     console.log("Falling object number: " + iceCount);
   }
 }
+
 MultipleFallingObjects.prototype.CreateSnowFall = function(iceCount) {
   for (var i=0; i < iceCount; i++ ){
 
@@ -198,6 +199,8 @@ var rain;
 var myGamePiece;
 var paused;
 var snowFall;
+var refreshRate = setInterval(updateGameArea, 8.34);
+var refreshRateStart = setInterval(updateStartArea, 8.34);
 
 function startGame() {  // makes pc as a PlayerCharacter piece
     myGameArea.start();
@@ -228,7 +231,7 @@ var myStartArea = {
       this.context = canvas.getContext("2d");
       ctx = this.context
 
-      this.interval = setInterval(updateStartArea, 8.34);
+      this.interval = refreshRateStart;
   },
   clear : function(){
       this.context.clearRect(0, 0, canvas.width, canvas.height);
@@ -263,7 +266,7 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
         ctx = this.context
 
         // document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 8.34);
+        this.interval = refreshRate;
         if (paused) {
           window.addEventListener('keydown', function (e) {
               myGameArea.keys = (myGameArea.keys || []);
