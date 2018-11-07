@@ -12,7 +12,6 @@ var continueAnimating = true;
 var playerHighScore = new PlayerHighScore(0);
 var stopStartScreen = false;
 
-
 // Business logic for PC movement\ Example
 function MultipleFallingObjects() {
   this.fallingObjects = [],
@@ -53,8 +52,6 @@ function MultipleFallingObjects() {
   }
 }
 
-
-
 MultipleFallingObjects.prototype.CreateFallingObjects = function(iceCount) {
   for (var i=0; i < iceCount; i++ ){
 
@@ -77,7 +74,6 @@ MultipleFallingObjects.prototype.CreateSnowFall = function(iceCount) {
   }
 }
 
-
 function randInt(max, min) {
   var number = Math.floor(Math.random()*(max - min + 1)) + min;
   return number;
@@ -86,7 +82,6 @@ function randInt(max, min) {
 function PlayerHighScore(score) {
   this.score = score;
 }
-
 
 function PlayerCharacter(width, height, color, x, y, score) {  // object with
   this.gameArea = myGameArea;
@@ -138,7 +133,7 @@ function FallingObject(x = 0, y = 0, width = 5, height = 15, speedX = 0, speedY 
   ctx.drawImage(ice, this.x - 4, this.y - 68)
   ctx.fillStyle = "rgba(255,0,0,0)";
   ctx.fillRect(this.x, this.y, this.width, this.height);
-}
+  }
 
 this.updateSnow = function() {
   ctx = myStartArea.context;
@@ -181,10 +176,8 @@ function startGame() {  // makes pc as a PlayerCharacter piece
   myGameArea.start();
   myGamePiece = new PlayerCharacter(15, 20, "#FFF", 600, 700, 0);
   rain = new MultipleFallingObjects();
-
   rain.CreateFallingObjects(15);
   paused = false;
-
 }
 
 function startScreen() {
@@ -212,13 +205,9 @@ var myStartArea = {
     window.addEventListener('keydown', function (e) {
       myGameArea.keys = (myGameArea.keys || []);
       myGameArea.keys[e.keyCode] = true;
-      // myGameArea.keys[39] = true;
-      // myGameArea.keys[80] = true;
     })
     window.addEventListener('keyup', function (e) {
       myGameArea.keys[e.keyCode] = false;
-      // myGameArea.keys[39] = false;
-      // myGameArea.keys[80] = false;
     })
 
     this.interval = refreshRateStart;
@@ -228,10 +217,7 @@ var myStartArea = {
   } // clears the canvas of old versions of objects (like where the pc was one key press ago)
 }
 
-
-
 function updateStartArea() {
-
 
   if(stopStartScreen) {
     return;
@@ -257,7 +243,6 @@ function updateStartArea() {
     ctx.fillText("High Score: " + playerHighScore.score, canvas.width/2, canvas.height/2 - 300);
   }
 }
-
 
 var myGameArea = { // makes canvas parameters. canvas is an html element that only takes images, and graphic from JavaScript.
   canvas : document.getElementById("canvas"),
@@ -285,26 +270,19 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
       window.addEventListener('keydown', function (e) {
         myGameArea.keys = (myGameArea.keys || []);
         myGameArea.keys[e.keyCode] = true;
-        // myGameArea.keys[39] = true;
-        // myGameArea.keys[80] = true;
       })
       window.addEventListener('keyup', function (e) {
         myGameArea.keys[e.keyCode] = false;
-        // myGameArea.keys[39] = false;
-        // myGameArea.keys[80] = false;
       })
     }
   },
   clear : function(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   } // clears the canvas of old versions of objects (like where the pc was one key press ago)
 }
 
-
-
 function updateGameArea() { // draws the new position of the pc after removing ALL objects in canvas.
-  // debugger;
+
   if (paused) {
     if (myGameArea.keys && myGameArea.keys[80]) {
       setTimeout(function(){
@@ -317,8 +295,6 @@ function updateGameArea() { // draws the new position of the pc after removing A
     if(!continueAnimating) {
       return;
     }
-    // speedX undefined while on start screen
-
 
     myGameArea.clear();
     myGamePiece.speedX = 0;
@@ -333,29 +309,25 @@ function updateGameArea() { // draws the new position of the pc after removing A
           $("#score").text(myGamePiece.score);
           continueAnimating = false;
           stopStartScreen = false;
+
           startScreen();
         } else {
           $("#score").text(myGamePiece.score += 1);
 
           if(myGamePiece.score >= playerHighScore.score){
-            playerHighScore.score = myGamePiece.score;
             playerHighScore.score += 1;
+            playerHighScore.score = myGamePiece.score;
             $("#highScore").text(playerHighScore.score);
           }
 
-
           rainDrop.myMove();
           rainDrop.updateFall();
-
-
-
 
           if (myGamePiece.score <= 2) {
             iceSpeed = 4;
             rain.CreateFallingObjects(0);
             $("canvas").removeClass();
             $("canvas").addClass("level1");
-
           }
 
           if (myGamePiece.score === 5000) {
@@ -380,7 +352,6 @@ function updateGameArea() { // draws the new position of the pc after removing A
         }
       }
 
-
       if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
         myGamePiece.speedX += -3.5;
       } // left arrow key
@@ -402,14 +373,9 @@ function updateGameArea() { // draws the new position of the pc after removing A
   }
 
   $(document).ready(function() {
-    // $("#startScreen").click(function() {
-    //   startScreen();
-    // });
-
     $("#startGame").click(function() {
       startGame();
       continueAnimating = true;
       stopStartScreen = true;
     });
-
   });
