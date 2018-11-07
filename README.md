@@ -24,3 +24,7 @@ Team work (starting out):
 
     Blake/Michael:
     Controllable objects (PC)
+
+
+Bugs:
+ - function updateGameArea(): second thing that appears if game is not paused

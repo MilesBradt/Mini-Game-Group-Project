@@ -70,7 +70,17 @@ canvas {
     background-color: #506476;
 }
 
-.level-up2 {
+.level1 {
+  display: flex;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  border:5px solid #000;
+  background-color: #506476;
+}
+
+.level2 {
   display: flex;
   margin-top: 25px;
   margin-bottom: 25px;
@@ -80,7 +90,7 @@ canvas {
   background-color: #48A68B;
 }
 
-.level-up3 {
+.level3 {
   display: flex;
   margin-top: 25px;
   margin-bottom: 25px;
