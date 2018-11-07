@@ -9,6 +9,7 @@ var animate;
 var iceCount = 15;
 var iceSpeed = 4;
 var continueAnimating = true;
+var playerHighScore = new PlayerHighScore(0);
 
 
 // Business logic for PC movement\ Example
@@ -80,8 +81,12 @@ function randInt(max, min) {
   return number;
 }
 
+function PlayerHighScore(score) {
+  this.score = score;
+}
 
-function PlayerCharacter(width, height, color, x, y, score = 0, highScore = 0) {  // object with
+
+function PlayerCharacter(width, height, color, x, y, score) {  // object with
   this.gamearea = myGameArea;
   this.width = width;
   this.height = height;
@@ -90,7 +95,6 @@ function PlayerCharacter(width, height, color, x, y, score = 0, highScore = 0) {
   this.x = x;
   this.y = y;
   this.score = score;
-  this.highScore = highScore;
   this.update = function() {
     ctx = myGameArea.context;
     ctx.fillStyle = color;
@@ -134,10 +138,10 @@ function PlayerCharacter(width, height, color, x, y, score = 0, highScore = 0) {
 
     ctx.font = "30px Courier New";
     var scoreColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
-    scoreColor.addColorStop("0","#050400");
+    scoreColor.addColorStop("0","#FFF");
     ctx.fillStyle = scoreColor;
     ctx.fillText("Score: " + this.score, 10, 30);
-    ctx.fillText("High Score: " + this.highScore, 10, 60);
+    ctx.fillText("High Score: " + playerHighScore.score, 10, 60);
   }
   this.newPos = function() {
     this.x += this.speedX;
@@ -171,7 +175,7 @@ function FallingObject(x = 0, y = 0, width = 5, height = 15, speedX = 0, speedY 
 
 this.updateSnow = function() {
   ctx = myStartArea.context;
-  ctx.fillStyle = "white";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
   ctx.fillRect(this.x, this.y, this.width, this.height);
 }
 
@@ -188,9 +192,7 @@ this.gentleMove = function() {
 
 this.myMove = function() {
   var yAxis = this.y
-  console.log(yAxis);
   if (yAxis <= 800) {
-    console.log(iceSpeed);
     yAxis += iceSpeed;
   } else {
     //Can change range of respawn coordinates here.
@@ -208,12 +210,9 @@ this.playFall = function() {
 }
 }
 
-
-
-
 function startGame() {  // makes pc as a PlayerCharacter piece
   myGameArea.start();
-  myGamePiece = new PlayerCharacter(15, 20, "#FFF", 600, 700);
+  myGamePiece = new PlayerCharacter(15, 20, "#FFF", 600, 700, 0);
   rain = new MultipleFallingObjects();
 
   rain.CreateFallingObjects(15);
@@ -353,23 +352,30 @@ function updateGameArea() { // draws the new position of the pc after removing A
           continueAnimating = false;
           stopStartScreen = false;
 
+
           startScreen();
         } else {
           $("#score").text(myGamePiece.score += 1);
 
+          if(myGamePiece.score >= playerHighScore.score){
+            playerHighScore.score = myGamePiece.score;
+            playerHighScore.score += 1;
+            $("#highScore").text(playerHighScore.score);
+          }
+
+
           rainDrop.myMove();
           rainDrop.updateFall();
 
-          if (myGamePiece.score >= myGamePiece.highScore) {
-            myGamePiece.highScore = myGamePiece.score;
-          }
+
+
 
           if (myGamePiece.score <= 2) {
             iceSpeed = 4;
             rain.CreateFallingObjects(0);
             $("canvas").removeClass();
             $("canvas").addClass("level1");
-    
+
           }
 
           if (myGamePiece.score === 5000) {
@@ -378,19 +384,19 @@ function updateGameArea() { // draws the new position of the pc after removing A
             $("canvas").addClass("level2");
           }
 
-          // if (myGamePiece.score === 65000) {
-          //   rain.CreateFallingObjects(10);
-          //   iceSpeed = 8;
-          //   $("canvas").removeClass("level-up2");
-          //   $("canvas").addClass("level-up3");
-          // }
-          //
-          // if (myGamePiece.score === 100000) {
-          //   rain.CreateFallingObjects(15);
-          //   iceSpeed = 8;
-          //   $("canvas").removeClass("level-up3");
-          //   $("canvas").addClass("ultra");
-          // }
+          if (myGamePiece.score === 65000) {
+            rain.CreateFallingObjects(10);
+            iceSpeed = 8;
+            $("canvas").removeClass("level-up2");
+            $("canvas").addClass("level-up3");
+          }
+
+          if (myGamePiece.score === 100000) {
+            rain.CreateFallingObjects(15);
+            iceSpeed = 8;
+            $("canvas").removeClass("level-up3");
+            $("canvas").addClass("ultra");
+          }
         }
       }
 
