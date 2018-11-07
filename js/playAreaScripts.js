@@ -322,6 +322,8 @@ function updateGameArea() { // draws the new position of the pc after removing A
         rainDrop.y + rainDrop.height > myGamePiece.y) {
           $("#score").text(myGamePiece.score);
           continueAnimating = false;
+          stopStartScreen = false;
+          startScreen();
         } else {
           $("#score").text(myGamePiece.score += 1);
 
@@ -381,6 +383,7 @@ $(document).ready(function() {
 
   $("#startGame").click(function() {
     startGame();
+    continueAnimating = true;
     stopStartScreen = true;
   });
 
