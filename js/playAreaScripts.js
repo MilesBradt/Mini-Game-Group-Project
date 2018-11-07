@@ -140,8 +140,10 @@ function PlayerCharacter(width, height, color, x, y, score) {  // object with
     var scoreColor = ctx.createLinearGradient(0, 0, canvas.width, 0);
     scoreColor.addColorStop("0","#FFF");
     ctx.fillStyle = scoreColor;
+    ctx.textAlign = "left";
     ctx.fillText("Score: " + this.score, 10, 30);
     ctx.fillText("High Score: " + playerHighScore.score, 10, 60);
+    ctx.textAlign = "center";
   }
   this.newPos = function() {
     this.x += this.speedX;
@@ -280,6 +282,7 @@ function updateStartArea() {
       snowFlake.gentleMove();
       snowFlake.updateSnow();
     }
+    ctx.fillStyle = "rgba(255,255,255,1)";
     ctx.fillText("< and > to move", canvas.width/2, canvas.height/2 - 25);
     ctx.fillText("press space to start", canvas.width/2, canvas.height/2 + 25);
   }

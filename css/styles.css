@@ -68,6 +68,7 @@ canvas {
     margin-right: auto;
     border:5px solid #000;
     background-color: #506476;
+    /* opacity: 0.5; */
 }
 
 .level1 {
