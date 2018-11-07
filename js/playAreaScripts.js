@@ -10,6 +10,7 @@ var iceCount = 15;
 var iceSpeed = 4;
 var continueAnimating = true;
 var playerHighScore = new PlayerHighScore(0);
+var stopStartScreen = false;
 
 
 // Business logic for PC movement\ Example
@@ -223,6 +224,7 @@ function startGame() {  // makes pc as a PlayerCharacter piece
 }
 
 function startScreen() {
+  continueAnimating = false;
   myStartArea.start();
   myGamePiece;
   snowFall = new MultipleFallingObjects();
@@ -243,7 +245,6 @@ var myStartArea = {
     ctx = this.context
     ctx.font = "30px Arial";
     ctx.textAlign = "center";
-    ctx.fillStyle = "teal";
     window.addEventListener('keydown', function (e) {
       myGameArea.keys = (myGameArea.keys || []);
       myGameArea.keys[e.keyCode] = true;
@@ -263,15 +264,15 @@ var myStartArea = {
   } // clears the canvas of old versions of objects (like where the pc was one key press ago)
 }
 
-var stopStartScreen = false;
+
 
 function updateStartArea() {
+
 
   if(stopStartScreen) {
     return;
   } else { // draws the new position of the pc after removing ALL objects in canvas.
     myStartArea.clear();
-
 
     if (myGameArea.keys && myGameArea.keys[32]) {
       startGame();
@@ -283,11 +284,13 @@ function updateStartArea() {
       snowFlake.gentleMove();
       snowFlake.updateSnow();
     }
+
     ctx.font = "48px Arial";
     ctx.fillStyle = "rgba(255,255,255,1)";
-    ctx.fillText("High Score: " + playerHighScore.score, canvas.width/2, canvas.height/2 - 300);
     ctx.fillText("< and > to move", canvas.width/2, canvas.height/2 - 25);
-    ctx.fillText("press space to start", canvas.width/2, canvas.height/2 + 25);
+    ctx.fillText("press space to start", canvas.width/2, canvas.height/2 + 25);      
+    ctx.fillText("Score That Round: " + myGamePiece.score, canvas.width/2, canvas.height/2 - 240);
+    ctx.fillText("High Score: " + playerHighScore.score, canvas.width/2, canvas.height/2 - 300);
   }
 }
 
@@ -338,7 +341,7 @@ var myGameArea = { // makes canvas parameters. canvas is an html element that on
 
 
 function updateGameArea() { // draws the new position of the pc after removing ALL objects in canvas.
-
+  // debugger;
   if (paused) {
     if (myGameArea.keys && myGameArea.keys[80]) {
       setTimeout(function(){
@@ -352,8 +355,11 @@ function updateGameArea() { // draws the new position of the pc after removing A
       return;
     }
     // speedX undefined while on start screen
+
+
     myGameArea.clear();
     myGamePiece.speedX = 0;
+    console.log(myGamePiece.speedX);
     // myGamePiece.speedY = 0;
     for (var i=0; i < rain.fallingObjects.length; i++ ){
       var rainDrop = rain.fallingObjects[i];

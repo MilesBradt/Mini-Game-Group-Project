@@ -28,3 +28,6 @@ Team work (starting out):
 
 Bugs:
  - function updateGameArea(): second thing that appears if game is not paused
+
+ ## _Specs_
+  - 
