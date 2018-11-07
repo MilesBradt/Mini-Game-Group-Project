@@ -83,7 +83,7 @@ function PlayerHighScore(score) {
   this.score = score;
 }
 
-function PlayerCharacter(width, height, color, x, y, score) {  // object with
+function PlayerCharacter(width, height, color, x, y, score = 0) {  // object with
   this.gameArea = myGameArea;
   this.width = width;
   this.height = height;
@@ -174,7 +174,7 @@ this.playFall = function() {
 
 function startGame() {  // makes pc as a PlayerCharacter piece
   myGameArea.start();
-  myGamePiece = new PlayerCharacter(15, 20, "#FFF", 600, 700, 0);
+  myGamePiece = new PlayerCharacter(15, 20, "#FFF", 600, 700);
   rain = new MultipleFallingObjects();
   rain.CreateFallingObjects(15);
   paused = false;
@@ -239,7 +239,9 @@ function updateStartArea() {
     ctx.fillStyle = "rgba(255,255,255,1)";
     ctx.fillText("< and > to move", canvas.width/2, canvas.height/2 - 25);
     ctx.fillText("press space to start", canvas.width/2, canvas.height/2 + 25);
-    ctx.fillText("Score That Round: " + myGamePiece.score, canvas.width/2, canvas.height/2 - 240);
+    if(myGamePiece){
+      ctx.fillText("Score That Round: " + myGamePiece.score, canvas.width/2, canvas.height/2 - 240);
+    }
     ctx.fillText("High Score: " + playerHighScore.score, canvas.width/2, canvas.height/2 - 300);
   }
 }
@@ -293,12 +295,12 @@ function updateGameArea() { // draws the new position of the pc after removing A
   } else {
 
     if(!continueAnimating) {
-      return;
+    return;
     }
 
     myGameArea.clear();
     myGamePiece.speedX = 0;
-    console.log(myGamePiece.speedX);
+
     // myGamePiece.speedY = 0;
     for (var i=0; i < rain.fallingObjects.length; i++ ){
       var rainDrop = rain.fallingObjects[i];
@@ -309,7 +311,6 @@ function updateGameArea() { // draws the new position of the pc after removing A
           $("#score").text(myGamePiece.score);
           continueAnimating = false;
           stopStartScreen = false;
-
           startScreen();
         } else {
           $("#score").text(myGamePiece.score += 1);
