@@ -45,6 +45,9 @@ MultipleFallingObjects Construct:
   - this.fallingObjects is the array that houses multiple FallingObject objects.
   - this.currentId is helps us assign an ID to each object that we add to our array.
 
+randInt Method(max, min):
+  Returns an integer between the max and min input.
+
   this.prototype.CreateFallingObjects(iceCount):
     For loop to push some number (iceCount) of objects falling objects into our array, and assign them all an ID.
     This method also includes the necessary notation to give all objects created random starting positions (within a useful range).
@@ -94,19 +97,19 @@ In HTML our body element performs the **startScreen()** method:
   ## Building Process Followed:
 
   _MVP:_
-    - Objects falling with hit detection
-    - Object on the ground to control
-    - Score system/lives system
-    - Start screen
+    - Objects falling with hit detection ✓
+    - Object on the ground to control ✓
+    - Score system/lives system ✓
+    - Start screen ✓
 
   _Extra things we want:_
-    - Pause
+    - Pause ✓
     - Options (different theme colors/colorblind mode)
-    - Difficulty levels
+    - Difficulty levels * working on it
     - CSS animations
     - Multiple Game Screen Sizes
 
   _Wishlist:_
     - Sound effects/music
-    - Multiple levels or game gets harder as time goes on
+    - Multiple levels or game gets harder as time goes on ✓
     - Multiple players at the same time

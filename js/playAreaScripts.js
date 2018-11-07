@@ -56,8 +56,7 @@ MultipleFallingObjects.prototype.CreateFallingObjects = function(iceCount) {
   for (var i=0; i < iceCount; i++ ){
 
     //Can change the range of initial spawn here. First random represents x-axis, second, the y-axis.
-    this.addFallingObject(new FallingObject(randInt(1030, 0), randInt(0, -1200)));
-    console.log("Falling object number: " + iceCount);
+    this.addFallingObject(new FallingObject(randInt(1080, 0), randInt(0, -1200)));
   }
 }
 
@@ -70,7 +69,7 @@ MultipleFallingObjects.prototype.CreateSnowFall = function(iceCount) {
   for (var i=0; i < iceCount; i++ ){
 
     //Can change the range of initial spawn here. First random represents x-axis, second, the y-axis.
-    this.addFallingObject(new FallingObject(randInt(1030, 0), randInt(0, -1200), randInt(20, 10), randInt(20,10), randInt(1, -1), randInt(3, 5)));
+    this.addFallingObject(new FallingObject(randInt(1080, 0), randInt(0, -1200), randInt(40, 15), randInt(30,15), randInt(1, -1), randInt(3, 5)));
   }
 }
 
@@ -159,7 +158,7 @@ this.myMove = function() {
   } else {
     //Can change range of respawn coordinates here.
     yAxis = randInt(0, -200);
-    this.x = randInt(1030, 0);
+    this.x = randInt(1080, 0);
   }
   this.y = yAxis;
 }
@@ -308,56 +307,85 @@ function updateGameArea() { // draws the new position of the pc after removing A
         rainDrop.x + rainDrop.width > myGamePiece.x &&
         rainDrop.y < myGamePiece.y + myGamePiece.height &&
         rainDrop.y + rainDrop.height > myGamePiece.y) { //hit detection
-          $("#score").text(myGamePiece.score);
+
           continueAnimating = false;
           stopStartScreen = false;
           startScreen();
         } else {
-          $("#score").text(myGamePiece.score += 1);
+          myGamePiece.score += 1;
 
           if(myGamePiece.score >= playerHighScore.score){
             playerHighScore.score += 1;
             playerHighScore.score = myGamePiece.score;
-            $("#highScore").text(playerHighScore.score);
+
           }
 
           rainDrop.myMove();
           rainDrop.updateFall();
 
           if (myGamePiece.score <= 2) {
-            iceSpeed = 4;
+            iceSpeed = 3;
             rain.CreateFallingObjects(0);
             $("canvas").removeClass();
             $("canvas").addClass("level1");
           }
 
-          if (myGamePiece.score === 5000) {
+          if (myGamePiece.score === 15000) {
             rain.CreateFallingObjects(5);
-            iceSpeed = 6;
+            iceSpeed = 3;
             $("canvas").addClass("level2");
           }
 
-          if (myGamePiece.score === 65000) {
-            rain.CreateFallingObjects(10);
-            iceSpeed = 8;
-            $("canvas").removeClass("level-up2");
-            $("canvas").addClass("level-up3");
+          if (myGamePiece.score === 45000) {
+            rain.CreateFallingObjects();
+            iceSpeed = 4;
+            $("canvas").removeClass("level2");
+            $("canvas").addClass("level3");
           }
 
-          if (myGamePiece.score === 100000) {
-            rain.CreateFallingObjects(15);
-            iceSpeed = 8;
-            $("canvas").removeClass("level-up3");
+          if (myGamePiece.score === 80000) {
+            rain.CreateFallingObjects(5);
+            iceSpeed = 4;
+            $("canvas").removeClass("level3");
+            $("canvas").addClass("level4");
+          }
+
+          if (myGamePiece.score === 150000) {
+            rain.CreateFallingObjects(5);
+            iceSpeed = 6;
+            $("canvas").removeClass("level4");
+            $("canvas").addClass("level5");
+          }
+
+          if (myGamePiece.score === 200000) {
+            rain.CreateFallingObjects(5);
+            iceSpeed = 6;
+            $("canvas").removeClass("level5");
+            $("canvas").addClass("level6");
+          }
+
+          if (myGamePiece.score === 300000) {
+            rain.CreateFallingObjects(10);
+            iceSpeed = 6;
+            $("canvas").removeClass("level6");
+            $("canvas").addClass("level7");
+          }
+
+          if (myGamePiece.score === 400000) {
+            rain.CreateFallingObjects(10);
+            iceSpeed = 7;
+            $("canvas").removeClass("level7");
             $("canvas").addClass("ultra");
+            $("body").addClass("ultra2");
           }
         }
       }
 
-      if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
+      if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>5) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
         myGamePiece.speedX += -3.5;
       } // left arrow key
 
-      if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1042) {
+      if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1065) {
         myGamePiece.speedX += 3.5;
       } // right arrow key
 
