@@ -1,6 +1,3 @@
-
-
-
 # _Avoid Falling Objects Mini Game_
 
 #### _Simple avoid objects browser based game_
