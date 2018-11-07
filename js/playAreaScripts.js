@@ -65,6 +65,7 @@ MultipleFallingObjects.prototype.CreateFallingObjects = function(iceCount) {
 
 MultipleFallingObjects.prototype.RemoveAllFallingObjects = function() {
   this.fallingObjects.splice(0, this.fallingObject.length);
+  this.currentId = 0;
 }
 
 MultipleFallingObjects.prototype.CreateSnowFall = function(iceCount) {
@@ -323,12 +324,10 @@ function updateGameArea() { // draws the new position of the pc after removing A
       if (rainDrop.x < myGamePiece.x + myGamePiece.width &&
         rainDrop.x + rainDrop.width > myGamePiece.x &&
         rainDrop.y < myGamePiece.y + myGamePiece.height &&
-        rainDrop.y + rainDrop.height > myGamePiece.y) {
+        rainDrop.y + rainDrop.height > myGamePiece.y) { //hit detection
           $("#score").text(myGamePiece.score);
           continueAnimating = false;
           stopStartScreen = false;
-
-
           startScreen();
         } else {
           $("#score").text(myGamePiece.score += 1);
@@ -379,18 +378,18 @@ function updateGameArea() { // draws the new position of the pc after removing A
 
       if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>8) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
         myGamePiece.speedX += -3.5;
-      }
+      } // left arrow key
 
       if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1042) {
         myGamePiece.speedX += 3.5;
-      }
+      } // right arrow key
 
       if (myGameArea.keys && myGameArea.keys[80]) {
         setTimeout(function(){
           pauseGame(myGamePiece, rain);
           paused = true;
         }, 150);
-      }
+      } // 'P' key
       myGamePiece.newPos();
       myGamePiece.update();
 

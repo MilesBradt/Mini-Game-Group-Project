@@ -1,77 +1,65 @@
-MVP:
-  - Objects falling with hit detection
-  - Object on the ground to control
-  - Score system/lives system
-  - Start screen
-
-Extra things we want:
-  - Pause
-  - Options (different theme colors/colorblind mode)
-  - Difficulty levels
-  - CSS animations
-  - Multiple Game Screen Sizes
-
-Wishlist:
-  - Sound effects/music
-  - Multiple levels or game gets harder as time goes on
-  - Multiple players at the same time
 
 
-Team work (starting out):
 
-    Cole/Miles:
-    Falling Objects
+ # _Avoid Falling Objects Mini Game_
 
-    Blake/Michael:
-    Controllable objects (PC)
+ #### _Simple avoid objects browser based game_
 
+ #### By _**J. Michael Brown, Miles Bradt, Cole Marsteller, Blake Gotting**_
 
-Bugs:
- - function updateGameArea(): second thing that appears if game is not paused
+ ## Description
 
-
-#### _Specifications_
-
-Falling Object Construct:
-out construct for how a falling object works.
-this object has a variable for:
-  - its current x axis (this.x)
-  - its current y axis (this.y)
-  - its x axis speed, the rate at which its position changes **PER FRAME** (this.speedX)
-  - its y axis speed (this.speed.Y)   
-  the hit box/rectangle width and height as this.width and this.height respectfully
-
-Update fall prototype for falling method:
-  Redraws object onto the screen
-  Contains sprite (icicle png)
-  Contains a hit box, which is represented by the invisible rectangle drawn on the screen
-
-Create myMove prototype for falling objects:
-  Changes y position relative to speed variable
-  resets y position if object falls off Screen:
-    sets random start point for object between y(0 and -200)
-    sets random start point for object between x(0 and 1030)
+ _Using basic JavaScript, CSS, and HTML5 elements we crated a mini game in which you dodge falling icicles ._  
 
 
-Player Character Construct:
-Construct for the controllable player character
-  - this.gameArea is tied to the variable game area
-  - this.width sets the width for the player character
-  - this.height sets the height for the player character
-  - this.speedX sets the x axis speed for the player character to be controlled
-  - this.speedY similar to speedX but unused for now
-  - this.x sets the current x axis position of the player character and reads where they are on the x axis   
-  - this.y sets the current y axis position of the player character and keeps them locked to the "floor" for the y axis because our y speed is always set to 0
-  - this.score is the score the player is achieving while in play
+ ## Setup/Installation Requirements
 
-  this.prototype.update:
-    Draws the score, player character, and High score to the screen.
-    the purpose of this method is to update the game area with the new position of the player, the current score, and the high score.
+   _Requires git to be downloaded on your devise to use instructed git terminal commands._
 
-  this.prototype.newPos:
-    Updates the position of the player character based off of the net speed. Because we are locked to the x-axis for movement, it is very simple.
+   _1. Open your terminal (command+spacebar on homepage for mac, to search for "terminal")_
 
+   _2. Navigate to your desktop (input "cd ~" to go to home directory then "cd desktop" to move to desktop)_
 
-MultipleFallingObjects Construct:
-  For loop to create falling icicle objects
-  Add falling object method to icecount variable to randomize icicle spawn point
+   _3 . Copy url for a clone (located top right of listed files in green)_
+
+   _4. Clone onto Desktop (type "git clone <url link>" replacing '<url link>' with the link you copied in step 3)_
+
+   _5. Open website in a browser (double click the "Mini-Game-Group-Project" file on your desktop then double click the "index.html" file)_
+
+ **Or open the page at this url: (placeholder for gh-pages)**
+
+ ## Known Bugs
+
+   _We will find some..._
+
+ ## Support and contact details
+
+ _If you run into any issues or have questions, ideas or concerns, or if you want to make a contribution to the code. You can email Michael at @jmichaelbrown132737@gmail.com, Miles @smbradtmichael@gmail.com, Cole @cgm32547@gmail.com, Blake @brgottinh@gmail.com_
+
+ ## Technologies Used
+
+ _Utilizes Bootstrap.css, javascript/jQuery, HTML canvas element_
+
+ ### License
+
+ MIT License
+
+ Copyright (c) 2018, _J. Michael Brown, Miles Bradt, Cole Marsteller, and Blake Gotting_  
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:  
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE._
