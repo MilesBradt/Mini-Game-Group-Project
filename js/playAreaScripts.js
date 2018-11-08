@@ -11,6 +11,8 @@ var iceSpeed = 4;
 var continueAnimating = true;
 var playerHighScore = new PlayerHighScore(0);
 var stopStartScreen = false;
+var mainMusic = new Audio("mp3/main.mp3");
+var ultraMusic = new Audio("mp3/stardust.mp3");
 
 // Business logic for PC movement\ Example
 function MultipleFallingObjects() {
@@ -236,8 +238,10 @@ function updateStartArea() {
 
     ctx.font = "48px Arial";
     ctx.fillStyle = "rgba(255,255,255,1)";
-    ctx.fillText("< and > to move", canvas.width/2, canvas.height/2 - 25);
-    ctx.fillText("press space to start", canvas.width/2, canvas.height/2 + 25);
+    ctx.fillText("< and > to move fast", canvas.width/2, canvas.height/2 - 75);
+    ctx.fillText("a and d to move slow", canvas.width/2, canvas.height/2 - 25);
+    ctx.fillText("a + < and d + > to move faster", canvas.width/2, canvas.height/2 + 25);
+    ctx.fillText("press space to start", canvas.width/2, canvas.height/2 + 150);
     if(myGamePiece){
       ctx.fillText("Score That Round: " + myGamePiece.score, canvas.width/2, canvas.height/2 - 240);
     }
@@ -312,7 +316,7 @@ function updateGameArea() { // draws the new position of the pc after removing A
           stopStartScreen = false;
           startScreen();
         } else {
-          myGamePiece.score += 1;
+          myGamePiece.score += 10;
 
           if(myGamePiece.score >= playerHighScore.score){
             playerHighScore.score += 1;
@@ -323,34 +327,37 @@ function updateGameArea() { // draws the new position of the pc after removing A
           rainDrop.myMove();
           rainDrop.updateFall();
 
-          if (myGamePiece.score <= 2) {
+          if (myGamePiece.score <= 15) {
             iceSpeed = 6;
+            ultraMusic.pause();
+            mainMusic.load();
+            mainMusic.play();
             rain.CreateFallingObjects(0);
             $("canvas").removeClass();
             $("canvas").addClass("level1");
           }
 
-          if (myGamePiece.score === 45000) {
+          if (myGamePiece.score === 25000) {
             rain.CreateFallingObjects(7);
             iceSpeed = 6;
             $("canvas").addClass("level2");
           }
 
-          if (myGamePiece.score === 80000) {
+          if (myGamePiece.score === 55000) {
             rain.CreateFallingObjects();
             iceSpeed = 8;
             $("canvas").removeClass("level2");
             $("canvas").addClass("level3");
           }
 
-          if (myGamePiece.score === 100000) {
+          if (myGamePiece.score === 80000) {
             rain.CreateFallingObjects(8);
             iceSpeed = 8;
             $("canvas").removeClass("level3");
             $("canvas").addClass("level4");
           }
 
-          if (myGamePiece.score === 150000) {
+          if (myGamePiece.score === 100000) {
             rain.CreateFallingObjects(5);
             iceSpeed = 10;
             $("canvas").removeClass("level4");
@@ -372,8 +379,11 @@ function updateGameArea() { // draws the new position of the pc after removing A
           }
 
           if (myGamePiece.score === 500000) {
-            rain.CreateFallingObjects(10);
+            rain.CreateFallingObjects(7);
             iceSpeed = 14;
+            mainMusic.pause();
+            ultraMusic.load();
+            ultraMusic.play();
             $("canvas").removeClass("level7");
             $("canvas").addClass("ultra");
             $("body").addClass("ultra2");
