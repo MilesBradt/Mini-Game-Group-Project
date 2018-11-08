@@ -94,6 +94,9 @@ In HTML our body element performs the **startScreen()** method:
   Performs methods similar to startGame() but without playable character or falling objects (spikes to avoid)
   Checks for spacebar to be pressed to begin running startGame() putting the animation back on and stopping the start screen
 
+  MP3 functionality
+    Download package through atom settings to read MP3 files
+
   ## Building Process Followed:
 
   _MVP:_
