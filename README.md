@@ -23,7 +23,7 @@ _Using basic JavaScript, CSS, and HTML5 elements we crated a mini game in which 
 
  _5. Open website in a browser (double click the "Mini-Game-Group-Project" file on your desktop then double click the "index.html" file)_
 
-**Or open the page at this url: (placeholder for gh-pages)**
+**Or open the page at this url: https://github.com/MilesBradt/Mini-Game-Group-Project.git**
 
 ## Known Bugs
 
