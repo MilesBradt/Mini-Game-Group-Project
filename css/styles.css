@@ -60,6 +60,10 @@ h1 {
   text-align: center;
 }
 
+body {
+  background-color: #545359;
+}
+
 canvas {
     display: flex;
     margin-top: 25px;
@@ -67,7 +71,7 @@ canvas {
     margin-left: auto;
     margin-right: auto;
     border:2px solid #000;
-    background-color: #939DB9;
+    background-color: #B2BBCF;
     cursor: none;
     /* opacity: 0.5; */
 }
@@ -79,7 +83,11 @@ canvas {
   margin-left: auto;
   margin-right: auto;
   border:2px solid #000;
-  background-color: #939DB9;
+  background-color: #B2BBCF;
+  -webkit-transition: background-color 1000ms linear;
+  -ms-transition: background-color 1000ms linear;
+  transition: background-color 1000ms linear;
+
 }
 
 .level2 {
@@ -89,7 +97,10 @@ canvas {
   margin-left: auto;
   margin-right: auto;
   border:2px solid #000;
-  background-color: #546485;
+  background-color: #D6D2BD;
+  -webkit-transition: background-color 1000ms linear;
+  -ms-transition: background-color 1000ms linear;
+  transition: background-color 1000ms linear;
 }
 
 .level3 {
@@ -99,7 +110,10 @@ canvas {
   margin-left: auto;
   margin-right: auto;
   border:2px solid #000;
-  background-color: #B8B782;
+  background-color: #CB9672;
+  -webkit-transition: background-color 1000ms linear;
+  -ms-transition: background-color 1000ms linear;
+  transition: background-color 1000ms linear;
 }
 
 .level4 {
@@ -109,7 +123,10 @@ canvas {
   margin-left: auto;
   margin-right: auto;
   border:2px solid #000;
-  background-color: #F0433A;
+  background-color: #B55A5E;
+  -webkit-transition: background-color 1000ms linear;
+  -ms-transition: background-color 1000ms linear;
+  transition: background-color 1000ms linear;
 }
 
 .level5 {
@@ -119,7 +136,10 @@ canvas {
   margin-left: auto;
   margin-right: auto;
   border:2px solid #000;
-  background-color: #C9283E;
+  background-color: #820333;
+  -webkit-transition: background-color 1000ms linear;
+  -ms-transition: background-color 1000ms linear;
+  transition: background-color 1000ms linear;
 }
 
 .level6 {
@@ -130,6 +150,9 @@ canvas {
   margin-right: auto;
   border:2px solid #000;
   background-color: #540032;
+  -webkit-transition: background-color 1000ms linear;
+  -ms-transition: background-color 1000ms linear;
+  transition: background-color 1000ms linear;
 }
 
 .level7 {
@@ -139,7 +162,10 @@ canvas {
   margin-left: auto;
   margin-right: auto;
   border:2px solid #000;
-  background-color: #2E112D;
+  background-color: #3B1639;
+  -webkit-transition: background-color 1000ms linear;
+  -ms-transition: background-color 1000ms linear;
+  transition: background-color 1000ms linear;
 }
 
 .ultra {
@@ -153,5 +179,5 @@ canvas {
 }
 
 .ultra2 {
-  background-color: #434347;
+  background-color: #101319;
 }
