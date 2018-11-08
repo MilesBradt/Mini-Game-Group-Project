@@ -753,7 +753,7 @@ function updateGameArea() { // draws the new position of the pc after removing A
           stopStartScreen = false;
           startScreen();
         } else {
-          myGamePiece.score += 10;
+          myGamePiece.score += 2;
 
           if(myGamePiece.score >= playerHighScore.score){
             playerHighScore.score += 1;
@@ -764,17 +764,18 @@ function updateGameArea() { // draws the new position of the pc after removing A
           rainDrop.myMove();
           rainDrop.updateFall();
 
-          if (myGamePiece.score <= 10) {
+          if (myGamePiece.score <= 4) {
             iceSpeed = 6;
             rain.CreateFallingObjects(0);
             audioUltra.pause();
             audio.load();
             audio.play();
+            $("body").removeClass("ultra2");
             $("canvas").removeClass();
             $("canvas").addClass("level1");
           }
 
-          if (myGamePiece.score === 45000) {
+          if (myGamePiece.score === 35000) {
             rain.CreateFallingObjects(7);
             iceSpeed = 6;
             $("canvas").addClass("level2");
@@ -829,11 +830,11 @@ function updateGameArea() { // draws the new position of the pc after removing A
       }
 
       if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>5) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
-        myGamePiece.speedX += -7;
+        myGamePiece.speedX += -6.5;
       } // left arrow key
 
       if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1065) {
-        myGamePiece.speedX += 7;
+        myGamePiece.speedX += 6.5
       } // right arrow key
 
       if (myGameArea.keys && myGameArea.keys[65] && myGamePiece.x>5) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
