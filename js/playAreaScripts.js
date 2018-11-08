@@ -11,6 +11,10 @@ var iceSpeed = 4;
 var continueAnimating = true;
 var playerHighScore = new PlayerHighScore(0);
 var stopStartScreen = false;
+var audio = new Audio('test-song2.mp3');
+var audioUltra = new Audio('test-song.mp3');
+var audioStart = new Audio('audioStart.mp3');
+
 
 // Business logic for PC movement\ Example
 function MultipleFallingObjects() {
@@ -177,15 +181,19 @@ function startGame() {  // makes pc as a PlayerCharacter piece
   rain = new MultipleFallingObjects();
   rain.CreateFallingObjects(15);
   paused = false;
+  audioStart.pause();
 }
 
 function startScreen() {
   continueAnimating = false;
   myStartArea.start();
+  audioStart.load();
+  audioStart.play();
   myGamePiece;
   snowFall = new MultipleFallingObjects();
   snowFall.CreateSnowFall(20);
 }
+
 
 function pauseGame(pc, objectsArray) {
   pc.pausePlayer();
@@ -307,11 +315,13 @@ function updateGameArea() { // draws the new position of the pc after removing A
         rainDrop.x + rainDrop.width > myGamePiece.x &&
         rainDrop.y < myGamePiece.y + myGamePiece.height &&
         rainDrop.y + rainDrop.height > myGamePiece.y) { //hit detection
-
           continueAnimating = false;
           stopStartScreen = false;
+          audioUltra.pause();
+          audio.pause ();
           startScreen();
         } else {
+
           myGamePiece.score += 1;
 
           if(myGamePiece.score >= playerHighScore.score){
@@ -328,9 +338,14 @@ function updateGameArea() { // draws the new position of the pc after removing A
             rain.CreateFallingObjects(0);
             $("canvas").removeClass();
             $("canvas").addClass("level1");
+            audio.load();
+            audio.play();
           }
 
           if (myGamePiece.score === 15000) {
+            audio.pause();
+            audioUltra.load();
+            audioUltra.play();
             rain.CreateFallingObjects(5);
             iceSpeed = 3;
             $("canvas").addClass("level2");
@@ -372,6 +387,10 @@ function updateGameArea() { // draws the new position of the pc after removing A
           }
 
           if (myGamePiece.score === 400000) {
+            audio.pause();
+            audioUltra.load();
+            audioUltra.play();
+
             rain.CreateFallingObjects(10);
             iceSpeed = 7;
             $("canvas").removeClass("level7");
