@@ -14,6 +14,7 @@ var stopStartScreen = false;
 var mainMusic = new Audio("mp3/main.mp3");
 var ultraMusic = new Audio("mp3/stardust.mp3");
 
+
 // Business logic for PC movement\ Example
 function MultipleFallingObjects() {
   this.fallingObjects = [],
@@ -179,15 +180,19 @@ function startGame() {  // makes pc as a PlayerCharacter piece
   rain = new MultipleFallingObjects();
   rain.CreateFallingObjects(10);
   paused = false;
+  audioStart.pause();
 }
 
 function startScreen() {
   continueAnimating = false;
   myStartArea.start();
+  audioStart.load();
+  audioStart.play();
   myGamePiece;
   snowFall = new MultipleFallingObjects();
   snowFall.CreateSnowFall(20);
 }
+
 
 function pauseGame(pc, objectsArray) {
   pc.pausePlayer();
@@ -311,12 +316,12 @@ function updateGameArea() { // draws the new position of the pc after removing A
         rainDrop.x + rainDrop.width > myGamePiece.x &&
         rainDrop.y < myGamePiece.y + myGamePiece.height &&
         rainDrop.y + rainDrop.height > myGamePiece.y) { //hit detection
-
           continueAnimating = false;
           stopStartScreen = false;
           startScreen();
         } else {
-          myGamePiece.score += 10;
+
+          myGamePiece.score += 1;
 
           if(myGamePiece.score >= playerHighScore.score){
             playerHighScore.score += 1;
@@ -327,7 +332,7 @@ function updateGameArea() { // draws the new position of the pc after removing A
           rainDrop.myMove();
           rainDrop.updateFall();
 
-          if (myGamePiece.score <= 15) {
+          if (myGamePiece.score <= 2) {
             iceSpeed = 6;
             ultraMusic.pause();
             mainMusic.load();
@@ -335,7 +340,10 @@ function updateGameArea() { // draws the new position of the pc after removing A
             rain.CreateFallingObjects(0);
             $("canvas").removeClass();
             $("canvas").addClass("level1");
+            audio.load();
+            audio.play();
           }
+
 
           if (myGamePiece.score === 25000) {
             rain.CreateFallingObjects(7);
@@ -377,6 +385,7 @@ function updateGameArea() { // draws the new position of the pc after removing A
             $("canvas").removeClass("level6");
             $("canvas").addClass("level7");
           }
+
 
           if (myGamePiece.score === 500000) {
             rain.CreateFallingObjects(7);
