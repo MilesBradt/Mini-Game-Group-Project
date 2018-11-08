@@ -2,7 +2,7 @@ var rain;
 var myGamePiece;
 var paused;
 var snowFall;
-var refreshRate = setInterval(updateGameArea, 8.34);
+var refreshRate = setInterval(updateGameArea, 16.67);
 var refreshRateStart = setInterval(updateStartArea, 8.34);
 var myGamePiece;
 var animate;
@@ -175,7 +175,7 @@ function startGame() {  // makes pc as a PlayerCharacter piece
   myGameArea.start();
   myGamePiece = new PlayerCharacter(15, 20, "#FFF", 600, 700);
   rain = new MultipleFallingObjects();
-  rain.CreateFallingObjects(15);
+  rain.CreateFallingObjects(10);
   paused = false;
 }
 
@@ -324,56 +324,56 @@ function updateGameArea() { // draws the new position of the pc after removing A
           rainDrop.updateFall();
 
           if (myGamePiece.score <= 2) {
-            iceSpeed = 3;
+            iceSpeed = 6;
             rain.CreateFallingObjects(0);
             $("canvas").removeClass();
             $("canvas").addClass("level1");
           }
 
-          if (myGamePiece.score === 15000) {
-            rain.CreateFallingObjects(5);
-            iceSpeed = 3;
+          if (myGamePiece.score === 45000) {
+            rain.CreateFallingObjects(7);
+            iceSpeed = 6;
             $("canvas").addClass("level2");
           }
 
-          if (myGamePiece.score === 45000) {
+          if (myGamePiece.score === 80000) {
             rain.CreateFallingObjects();
-            iceSpeed = 4;
+            iceSpeed = 8;
             $("canvas").removeClass("level2");
             $("canvas").addClass("level3");
           }
 
-          if (myGamePiece.score === 80000) {
-            rain.CreateFallingObjects(5);
-            iceSpeed = 4;
+          if (myGamePiece.score === 100000) {
+            rain.CreateFallingObjects(8);
+            iceSpeed = 8;
             $("canvas").removeClass("level3");
             $("canvas").addClass("level4");
           }
 
           if (myGamePiece.score === 150000) {
             rain.CreateFallingObjects(5);
-            iceSpeed = 6;
+            iceSpeed = 10;
             $("canvas").removeClass("level4");
             $("canvas").addClass("level5");
           }
 
-          if (myGamePiece.score === 200000) {
+          if (myGamePiece.score === 250000) {
             rain.CreateFallingObjects(5);
-            iceSpeed = 6;
+            iceSpeed = 12;
             $("canvas").removeClass("level5");
             $("canvas").addClass("level6");
           }
 
-          if (myGamePiece.score === 300000) {
+          if (myGamePiece.score === 400000) {
             rain.CreateFallingObjects(10);
-            iceSpeed = 6;
+            iceSpeed = 12;
             $("canvas").removeClass("level6");
             $("canvas").addClass("level7");
           }
 
-          if (myGamePiece.score === 400000) {
+          if (myGamePiece.score === 500000) {
             rain.CreateFallingObjects(10);
-            iceSpeed = 7;
+            iceSpeed = 14;
             $("canvas").removeClass("level7");
             $("canvas").addClass("ultra");
             $("body").addClass("ultra2");
@@ -382,10 +382,18 @@ function updateGameArea() { // draws the new position of the pc after removing A
       }
 
       if (myGameArea.keys && myGameArea.keys[37] && myGamePiece.x>5) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
-        myGamePiece.speedX += -3.5;
+        myGamePiece.speedX += -7;
       } // left arrow key
 
       if (myGameArea.keys && myGameArea.keys[39] && myGamePiece.x<1065) {
+        myGamePiece.speedX += 7;
+      } // right arrow key
+
+      if (myGameArea.keys && myGameArea.keys[65] && myGamePiece.x>5) {  // ensures the game piece is within the limitations of the canvas border, creates an array of the keys that are pressed
+        myGamePiece.speedX += -3.5;
+      } // left arrow key
+
+      if (myGameArea.keys && myGameArea.keys[68] && myGamePiece.x<1065) {
         myGamePiece.speedX += 3.5;
       } // right arrow key
 
